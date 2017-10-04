@@ -1,6 +1,7 @@
 package ptr.hf.ui.auth;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -58,6 +59,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private FirebaseAuth firebaseAuth;
     private GoogleApiClient googleApiClient;
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,6 +87,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
                 .build();
 
+        progress = new ProgressDialog(this);
+        progress.setTitle("Bejelentkezés");
+        progress.setMessage("Kérem várjon...");
+        progress.setCancelable(false);
 
         firebaseAuth = FirebaseAuth.getInstance();
     }
@@ -238,26 +244,34 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         switch (view.getId()) {
             case R.id.login_button:
-                if (isEmailValid(email))
+                if (isEmailValid(email)) {
+                    progress.show();
                     signInWithEmailAndPassword(email, password);
-                else if (!isEmailValid(email))
+//                    progress.dismiss();
+                } else if (!isEmailValid(email)) {
                     makeSnack("Az e-mail cím nem megfelelő");
-                else
+                } else
                     makeSnack("A jelszó nem megfelelő");
                 break;
             case R.id.login_google:
+                progress.show();
                 googleSignIn();
+//                progress.dismiss();
                 break;
             case R.id.login_reset:
                 if (isEmailValid(email)) {
+                    progress.show();
 //                    forgotPassword();
+//                    progress.dismiss();
                 } else
                     makeSnack("Az e-mail cím nem megfelelő");
                 break;
             case R.id.login_register:
-                if (isEmailValid(email) && password.length() < 6)
+                if (isEmailValid(email) && password.length() < 6) {
+                    progress.show();
                     createUserWithEmailAndPassword(email, password);
-                else if (!isEmailValid(email))
+//                    progress.dismiss();
+                } else if (!isEmailValid(email))
                     makeSnack("Az e-mail cím nem megfelelő");
                 else
                     makeSnack("A jelszónak legalább 6 karakternek kell lennie");

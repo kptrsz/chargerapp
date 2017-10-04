@@ -1,5 +1,6 @@
 package ptr.hf.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -12,22 +13,31 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ptr.hf.R;
+import ptr.hf.ui.auth.LoginActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    FragmentManager fragmentManager = getSupportFragmentManager();
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -49,12 +59,42 @@ public class MainActivity extends AppCompatActivity
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.veryTransparentColorPrimaryDark));
 
+        toolbar.setTitle(R.string.map);
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.container, new ptr.hf.ui.MapFragment())
+                .commit();
+
         setSupportActionBar(toolbar);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        View headerLayout = navView.getHeaderView(0);
+        ImageView profileImage = (ImageView) headerLayout.findViewById(R.id.profile_picture);
+        TextView profileName = (TextView) headerLayout.findViewById(R.id.profile_name);
+        TextView profileEmail = (TextView) headerLayout.findViewById(R.id.profile_email);
+        if (user.getPhotoUrl() != null)
+        Picasso
+                .with(this)
+                .load(user.getPhotoUrl())
+                .into(profileImage);
+        if (user.getDisplayName() != null)
+            profileName.setText(user.getDisplayName());
+        else
+            profileName.setText("Vendég");
+
+        if (user.getEmail() != null)
+            profileEmail.setText(user.getEmail());
+        else
+            profileEmail.setText("");
+
+
 
         navView.setNavigationItemSelectedListener(this);
     }
@@ -86,7 +126,6 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         Fragment fragment = new ptr.hf.ui.MapFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
 
         if (id == R.id.nav_maps) {
             toolbar.setTitle(R.string.map);
@@ -100,6 +139,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             toolbar.setTitle(R.string.settings);
             fragment = new SettingsFragment();
+        } else if (id == R.id.nav_logout) {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         } else if (id == R.id.nav_info) {
             toolbar.setTitle(R.string.information);
 //            fragment = new InformationFragment();
