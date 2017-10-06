@@ -1,4 +1,4 @@
-package ptr.hf.ui;
+package ptr.hf.ui.map;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ptr.hf.R;
+import ptr.hf.network.HttpRequest;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
@@ -28,6 +29,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
+
 
         unbinder = ButterKnife.bind(this, view);
         return view;

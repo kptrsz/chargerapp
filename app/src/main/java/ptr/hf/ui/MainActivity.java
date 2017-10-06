@@ -32,6 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ptr.hf.R;
 import ptr.hf.ui.auth.LoginActivity;
+import ptr.hf.ui.map.MapFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity
         toolbar.setTitle(R.string.map);
         fragmentManager
                 .beginTransaction()
-                .replace(R.id.container, new ptr.hf.ui.MapFragment())
+                .replace(R.id.container, new MapFragment())
                 .commit();
 
         setSupportActionBar(toolbar);
@@ -160,11 +161,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        Fragment fragment = new ptr.hf.ui.MapFragment();
+        Fragment fragment = new MapFragment();
 
         if (id == R.id.nav_maps) {
             toolbar.setTitle(R.string.map);
-            fragment = new ptr.hf.ui.MapFragment();
+            fragment = new MapFragment();
         } else if (id == R.id.nav_reservation) {
             toolbar.setTitle(R.string.reservation);
             fragment = new ReservationFragment();
