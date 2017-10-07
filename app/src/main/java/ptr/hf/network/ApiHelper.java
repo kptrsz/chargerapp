@@ -4,6 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Cache;
 import okhttp3.Interceptor;
@@ -15,6 +18,8 @@ import ptr.hf.helper.BaseHelper;
 import ptr.hf.helper.ResourceHelper;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static ptr.hf.helper.ResourceHelper.getStringResources;
 
 public enum ApiHelper {
     INSTANCE;
@@ -37,21 +42,19 @@ public enum ApiHelper {
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ResourceHelper.getStringResources(R.string.config_rest_api_url))
+//                .baseUrl(getStringResources(R.string.config_rest_api_url))
+                .baseUrl("https://api.openchargemap.io/v2/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
         restService = retrofit.create(RestService.class);
+        chargerService = retrofit.create(ChargerService.class);
     }
 
-
-//    public void login(final boolean showDialog, final LoginRequest loginRequest) {
-//        showProgressDialog(showDialog);
-//        eCarService.login(loginRequest).enqueue(new RestCallback<>(UserController.getInstance().getLoginResultListener()));
-//    }
-
-    public void getStations() {
-        chargerService.getStations("HU", 1000).enqueue(new RestCallback<>(MapController.getInstance().getStationResultListener()));
+    public void getStations(final IApiResultListener<ArrayList<Station>> resultListener) {
+        chargerService
+                .getStations("HU", 1000)
+                .enqueue(new RestCallback<>(resultListener));
     }
 }

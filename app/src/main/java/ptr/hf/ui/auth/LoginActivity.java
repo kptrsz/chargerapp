@@ -29,6 +29,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,6 +37,7 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import ptr.hf.App;
 import ptr.hf.R;
 import ptr.hf.ui.MainActivity;
 
@@ -108,6 +110,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onStop() {
         super.onStop();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        App.activityResumed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        App.activityPaused();
     }
 
     private void createUserWithEmailAndPassword(final String email, final String password) {

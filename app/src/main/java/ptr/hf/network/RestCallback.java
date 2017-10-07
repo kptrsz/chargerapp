@@ -8,10 +8,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Abstract class of Retrofit's Callback
- * Provides a generic failure branch
- */
 public class RestCallback<T> implements Callback<T> {
     protected IApiFinishedListener finishedListener;
     protected IApiResultListener<T> resultListener;
@@ -26,14 +22,23 @@ public class RestCallback<T> implements Callback<T> {
 
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
-        Log.d("Response", response.toString());
-        if (response.code() == 204) {
+        String responseString = response.toString();
+        Log.d("Response__", response.toString()+"__"+response.message());
+        Log.d("Response__code__", Integer.toString(response.code()));
+        if (response.isSuccessful() && response.body() != null && resultListener != null ||
+                response.isSuccessful() && finishedListener != null) {
             success(response.body());
-            return;
-        }
-        if (response.isSuccessful() && response.body() != null && resultListener != null || response.isSuccessful() && finishedListener != null) {
-            success(response.body());
-        } else if (response.code() >= 400 && response.errorBody() != null) {
+        } else if (response.code() >= 200 && response.code() < 300) {
+            if (response.code() == 204) {
+                if (finishedListener != null) {
+                    finishedListener.success();
+                } else if (resultListener != null) {
+                    resultListener.fail();
+                }
+            } else {
+                success(response.body());
+            }
+        } else if (response.code() >= 300 && response.code() < 500 && response.errorBody() != null) {
             ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().charStream(), ErrorResponse.class);
             if (errorResponse != null)
                 error(errorResponse);
@@ -46,9 +51,6 @@ public class RestCallback<T> implements Callback<T> {
 
     @Override
     public void onFailure(Call<T> call, Throwable t) {
-        // log all errors to Crashlytics
-//        Crashlytics.getInstance().core.logException(error);
-
         Log.e("RestCallback", "Rest failure!", t);
         t.printStackTrace();
         fail();
@@ -76,4 +78,7 @@ public class RestCallback<T> implements Callback<T> {
         if (finishedListener != null)
             finishedListener.fail();
     }
+
+
+
 }

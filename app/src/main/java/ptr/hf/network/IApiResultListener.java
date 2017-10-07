@@ -1,5 +1,8 @@
 package ptr.hf.network;
 
+/**
+ * Interface for api callback
+ */
 public interface IApiResultListener<T> {
     /**
      * Api call has finished successfully

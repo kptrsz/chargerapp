@@ -16,6 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data android:name="firebase_crash_collection_enabled" android:value="false" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBjgPAGo6Q_n4s2COxLKYcRxWjwSSK6pTA" />
