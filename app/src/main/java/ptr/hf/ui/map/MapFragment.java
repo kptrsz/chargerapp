@@ -7,29 +7,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.GeoDataClient;
+import com.google.android.gms.location.places.PlaceDetectionClient;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ptr.hf.R;
-import ptr.hf.model.Car;
-import ptr.hf.model.FilterItem;
 import ptr.hf.network.ApiHelper;
 import ptr.hf.network.ErrorResponse;
 import ptr.hf.network.IApiResultListener;
@@ -37,12 +30,12 @@ import ptr.hf.network.Station;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    private final Object StationsLockObject = new Object();
-
     private ArrayList<Station> stations;
     private MapView mapView;
-    private List<Marker> markers;
     private GoogleMap map;
+    private GeoDataClient geoDataClient;
+    private PlaceDetectionClient placeDetectionClient;
+    private FusedLocationProviderClient fusedLocationProviderClient;
 
     Unbinder unbinder;
 
@@ -51,8 +44,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        getStationsFromOCM();
+        geoDataClient = Places.getGeoDataClient(this, null);
 
+        placeDetectionClient = Places.getPlaceDetectionClient(this, null);
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        getStationsFromOCM();
         unbinder = ButterKnife.bind(this, view);
         return view;
     }

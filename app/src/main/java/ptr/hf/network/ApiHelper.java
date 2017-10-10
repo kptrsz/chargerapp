@@ -42,8 +42,7 @@ public enum ApiHelper {
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(getStringResources(R.string.config_rest_api_url))
-                .baseUrl("https://api.openchargemap.io/v2/")
+                .baseUrl("http://ec2-35-157-242-61.eu-central-1.compute.amazonaws.com:3000/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
