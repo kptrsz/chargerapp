@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Hf.iml" filepath="$PROJECT_DIR$/Hf.iml" />
+      <module fileurl="file://D:\Documents\Android\Projects\__own\chargerapp\Hf.iml" filepath="D:\Documents\Android\Projects\__own\chargerapp\Hf.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/chargerapp.iml" filepath="$PROJECT_DIR$/chargerapp.iml" />
     </modules>

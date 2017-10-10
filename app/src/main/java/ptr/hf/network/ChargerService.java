@@ -1,8 +1,10 @@
 package ptr.hf.network;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import ptr.hf.model.Reservation;
+import ptr.hf.model.ReservationResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -14,5 +16,8 @@ public interface ChargerService {
                                          @Query("maxresults") int maxResults);
 
     @POST("reservation/add")
-    Call<Reservation>
+    Call<ReservationResponse> postReservation(@Query("chargerId") String chargerId,
+                                              @Query("userId") String userId,
+                                              @Query("from") Integer from,
+                                              @Query("to") Integer to);
 }

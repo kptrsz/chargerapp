@@ -1,11 +1,13 @@
 package ptr.hf.network;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.Cache;
@@ -16,6 +18,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import ptr.hf.R;
 import ptr.hf.helper.BaseHelper;
 import ptr.hf.helper.ResourceHelper;
+import ptr.hf.model.Reservation;
+import ptr.hf.model.ReservationResponse;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -30,10 +34,12 @@ public enum ApiHelper {
     ApiHelper() {
         //TODO remove in production (image_upload)
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+//        Interceptor stethoInterceptor = (Interceptor) new StethoInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient client = new OkHttpClient.Builder()
-                .addNetworkInterceptor(interceptor)   //TODO remove in production
+//                .addNetworkInterceptor(interceptor)   //TODO remove in production
+                .addNetworkInterceptor(new StethoInterceptor())
 //                .addInterceptor(new MyInterceptor())
                 .build();
 
@@ -56,4 +62,11 @@ public enum ApiHelper {
                 .getStations("HU", 1000)
                 .enqueue(new RestCallback<>(resultListener));
     }
+
+    public void postReservation(String chargerId, String userId, Integer from, Integer to, final IApiResultListener<ReservationResponse> resultListener) {
+        chargerService
+                .postReservation(chargerId, userId, from, to)
+                .enqueue(new RestCallback<>(resultListener));
+    }
+
 }

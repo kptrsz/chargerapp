@@ -2,6 +2,8 @@ package ptr.hf;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
+
 import ptr.hf.helper.BaseHelper;
 
 public class App  extends Application{
@@ -11,6 +13,7 @@ public class App  extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
+        Stetho.initializeWithDefaults(this);
 
         BaseHelper.initialize(this);
     }

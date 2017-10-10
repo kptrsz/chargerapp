@@ -44,11 +44,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        geoDataClient = Places.getGeoDataClient(this, null);
-
-        placeDetectionClient = Places.getPlaceDetectionClient(this, null);
-
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+//        geoDataClient = Places.getGeoDataClient(getContext(), null);
+//
+//        placeDetectionClient = Places.getPlaceDetectionClient(getContext(), null);
+//
+//        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         getStationsFromOCM();
         unbinder = ButterKnife.bind(this, view);
