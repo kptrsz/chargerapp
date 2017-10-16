@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/colorPrimaryLight"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="64dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:text="Töltő azonosító" />
 
@@ -27,45 +29,154 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
             android:layout_weight="1"
-            android:text="Mikortól" />
+            android:background="@color/colorPrimaryDark"
+            android:elevation="4dp"
+            android:gravity="center"
+            android:text="Mikortól"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24dp" />
 
-        <DatePicker
-            android:id="@+id/datepicker_from"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="2" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/datepicker_from"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="0.98"
+                android:background="@color/transparentColorPrimary"
+                android:gravity="center"
+                android:text="Dátum beállítása"
+                android:textColor="@color/colorPrimaryDark" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="0.98"
+                android:background="@color/transparentColorPrimaryDark" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/timepicker_from"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="0.98"
+                android:background="@color/transparentColorPrimary"
+                android:text="Időpont beállítása"
+                android:textColor="@color/colorPrimaryDark" />
+        </LinearLayout>
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
             android:layout_weight="1"
-            android:text="Meddig" />
+            android:background="@color/colorPrimaryDark"
+            android:elevation="4dp"
+            android:gravity="center"
+            android:text="Meddig"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24dp" />
 
-        <DatePicker
-            android:id="@+id/datepicker_to"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="2" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/datepicker_to"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="0.98"
+                android:background="@color/transparentColorPrimary"
+                android:gravity="center"
+                android:text="Dátum beállítása"
+                android:textColor="@color/colorPrimaryDark" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="0.98"
+                android:background="@color/transparentColorPrimaryDark" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/timepicker_to"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="0.98"
+                android:background="@color/transparentColorPrimary"
+                android:text="Időpont beállítása"
+                android:textColor="@color/colorPrimaryDark" />
+        </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/send_reservation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Foglalás!" />
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_gravity="bottom"
+        android:background="@color/colorAccent"
+        android:elevation="4dp"
+        android:gravity="center"
+        android:text="Foglalás"
+        android:textSize="24sp" />
 
 
 </LinearLayout>

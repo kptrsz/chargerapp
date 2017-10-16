@@ -20,6 +20,7 @@ import ptr.hf.helper.BaseHelper;
 import ptr.hf.helper.ResourceHelper;
 import ptr.hf.model.Reservation;
 import ptr.hf.model.ReservationResponse;
+import ptr.hf.model.Stations;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -59,14 +60,19 @@ public enum ApiHelper {
 
     public void getStations(final IApiResultListener<ArrayList<Station>> resultListener) {
         chargerService
-                .getStations("HU", 1000)
+                .getStations("HU", 10)
                 .enqueue(new RestCallback<>(resultListener));
     }
 
-    public void postReservation(String chargerId, String userId, Integer from, Integer to, final IApiResultListener<ReservationResponse> resultListener) {
-        chargerService
-                .postReservation(chargerId, userId, from, to)
-                .enqueue(new RestCallback<>(resultListener));
+//    public void postReservation(String chargerId, String userId, Integer from, Integer to, final IApiResultListener<ReservationResponse> resultListener) {
+//        chargerService
+//                .postReservation(chargerId, userId, from, to)
+//                .enqueue(new RestCallback<>(resultListener));
+//    }
+
+    public void postReservation(String chargerId, String userId, Integer from, Integer to, final IApiFinishedListener finishedListener) {
+        chargerService.postReservation(chargerId, userId, Integer.toString(from), Integer.toString(to)).enqueue(new RestCallback<ReservationResponse>(finishedListener));
     }
+
 
 }

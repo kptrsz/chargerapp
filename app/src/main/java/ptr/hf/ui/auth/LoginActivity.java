@@ -102,8 +102,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         super.onStart();
 
         if (firebaseAuth != null) {
-            FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-            updateUI(currentUser);
+            updateUI(firebaseAuth.getCurrentUser());
         }
     }
 
@@ -111,6 +110,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     protected void onStop() {
         super.onStop();
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -154,6 +154,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void signInWithEmailAndPassword(final String email, final String password) {
+        if (email.equals("") || password.equals("")) {
+            makeSnack("Kérem töltsön ki minden mezőt!");
+        }
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

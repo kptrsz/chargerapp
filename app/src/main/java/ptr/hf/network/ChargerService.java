@@ -18,6 +18,6 @@ public interface ChargerService {
     @POST("reservation/add")
     Call<ReservationResponse> postReservation(@Query("chargerId") String chargerId,
                                               @Query("userId") String userId,
-                                              @Query("from") Integer from,
-                                              @Query("to") Integer to);
+                                              @Query("from") String  from,
+                                              @Query("to") String to);
 }
