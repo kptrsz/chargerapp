@@ -16,7 +16,7 @@ public interface ChargerService {
                                          @Query("maxresults") int maxResults);
 
     @POST("reservation/add")
-    Call<ReservationResponse> postReservation(@Query("chargerId") String chargerId,
+    Call<Void> postReservation(@Query("chargerId") String chargerId,
                                               @Query("userId") String userId,
                                               @Query("from") String  from,
                                               @Query("to") String to);

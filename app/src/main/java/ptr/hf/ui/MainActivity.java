@@ -135,7 +135,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     public class CircleTransform implements Transformation {
         @Override
         public Bitmap transform(Bitmap source) {
@@ -184,6 +183,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_reservation) {
             toolbar.setTitle(R.string.reservation);
             fragment = new ReservationFragment();
+        } else if (id == R.id.nav_my_reservations) {
+            toolbar.setTitle("Foglalásaim");
+            fragment = new MyReservationFragment();
         } else if (id == R.id.nav_stats) {
             toolbar.setTitle(R.string.statistics);
             fragment = new StatisticsFragment();

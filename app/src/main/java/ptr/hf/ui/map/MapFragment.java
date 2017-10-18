@@ -1,8 +1,17 @@
 package ptr.hf.ui.map;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +21,17 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.PlaceDetectionClient;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
 
@@ -28,7 +43,7 @@ import ptr.hf.network.ErrorResponse;
 import ptr.hf.network.IApiResultListener;
 import ptr.hf.network.Station;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
 
     private ArrayList<Station> stations;
     private MapView mapView;
@@ -36,7 +51,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private GeoDataClient geoDataClient;
     private PlaceDetectionClient placeDetectionClient;
     private FusedLocationProviderClient fusedLocationProviderClient;
-
     Unbinder unbinder;
 
     @Nullable
@@ -47,10 +61,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 //        geoDataClient = Places.getGeoDataClient(getContext(), null);
 //
 //        placeDetectionClient = Places.getPlaceDetectionClient(getContext(), null);
+//        if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
 //
-//        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
+//            ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  },
+//                    LocationService.MY_PERMISSION_ACCESS_COURSE_LOCATION );
+//        }
+//
+//        fusedLocationProviderClient.getLastLocation()
+//                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+//                    @Override
+//                    public void onSuccess(Location location) {
+//                        if (location != null) {
+////                            currentLocation = location;
+//                            onLocationChanged(location);
+//                        }
+//                    }
+//                });
         getStationsFromOCM();
+
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -93,17 +121,43 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 //                markers.add(marker);
             }
         googleMap.setOnMarkerClickListener(this);
+
+        CameraUpdate center=
+                CameraUpdateFactory.newLatLng(new LatLng(47.4734528,19.0576992));
+        CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+
+        map.moveCamera(center);
+        map.animateCamera(zoom);
     }
+
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return false;
+    }
+
+    public void onLocationChanged(Location location) {
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        float speed = location.getSpeed();
+
+        LatLng latLng = new LatLng(latitude, longitude);
+
+        CameraPosition camPos = new CameraPosition.Builder()
+                .target(new LatLng(latitude, longitude))
+                .zoom(18)
+                .bearing(location.getBearing())
+                .tilt(70)
+                .build();
+        CameraUpdate camUpd3 = CameraUpdateFactory.newCameraPosition(camPos);
+        map.animateCamera(camUpd3);
+    }
+
 
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        return false;
     }
 }

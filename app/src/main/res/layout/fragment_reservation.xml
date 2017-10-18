@@ -5,49 +5,50 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:orientation="horizontal">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="64dp"-->
+        <!--android:orientation="horizontal">-->
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:text="Töltő azonosító" />
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="64dp"-->
+            <!--android:layout_marginStart="8dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="Töltő azonosító" />-->
 
-        <EditText
-            android:id="@+id/edittext_chargerid"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:text="93815" />
-    </LinearLayout>
+        <!--<EditText-->
+            <!--android:id="@+id/edittext_chargerid"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="2"-->
+            <!--android:gravity="center"-->
+            <!--android:text="93815" />-->
+    <!--</LinearLayout>-->
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_weight="1"
-            android:background="@color/colorPrimaryDark"
             android:elevation="4dp"
             android:gravity="center"
             android:text="Mikortól"
             android:textAlignment="center"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryLight"
             android:textSize="24dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:background="@drawable/edittext_bg"
             android:orientation="horizontal"
             android:weightSum="1">
 
@@ -55,43 +56,24 @@
                 android:id="@+id/datepicker_from"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
-                android:layout_weight="0.98"
-                android:background="@color/transparentColorPrimary"
+                android:layout_weight="0.5"
+                android:background="@color/transparentColorPrimaryLight"
                 android:gravity="center"
                 android:text="Dátum beállítása"
                 android:textColor="@color/colorPrimaryDark" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="0.98"
-                android:background="@color/transparentColorPrimaryDark" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="1">
 
             <Button
                 android:id="@+id/timepicker_from"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
-                android:layout_weight="0.98"
-                android:background="@color/transparentColorPrimary"
+                android:padding="8dp"
+                android:gravity="center"
+                android:layout_weight="0.5"
+                android:background="@color/transparentColorPrimaryLight"
                 android:text="Időpont beállítása"
                 android:textColor="@color/colorPrimaryDark" />
         </LinearLayout>
+
     </LinearLayout>
 
 
@@ -109,13 +91,14 @@
             android:gravity="center"
             android:text="Meddig"
             android:textAlignment="center"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryLight"
             android:textSize="24dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:background="@drawable/edittext_bg"
             android:orientation="horizontal"
             android:weightSum="1">
 
@@ -123,49 +106,58 @@
                 android:id="@+id/datepicker_to"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
-                android:layout_weight="0.98"
-                android:background="@color/transparentColorPrimary"
+                android:layout_weight="0.5"
+                android:background="@color/transparentColorPrimaryLight"
                 android:gravity="center"
                 android:text="Dátum beállítása"
                 android:textColor="@color/colorPrimaryDark" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="0.98"
-                android:background="@color/transparentColorPrimaryDark" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
             <Button
                 android:id="@+id/timepicker_to"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
-                android:layout_weight="0.98"
-                android:background="@color/transparentColorPrimary"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:padding="8dp"
+                android:background="@color/transparentColorPrimaryLight"
                 android:text="Időpont beállítása"
                 android:textColor="@color/colorPrimaryDark" />
         </LinearLayout>
+
+
     </LinearLayout>
 
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@color/colorPrimaryDark"
+            android:elevation="4dp"
+            android:gravity="center"
+            android:text="Megjegyzés"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryLight"
+            android:textSize="24dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            android:maxLines="8"
+            android:padding="8dp"
+            android:background="@drawable/edittext_bg"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1" />-->
 
     <Button
         android:id="@+id/send_reservation"
