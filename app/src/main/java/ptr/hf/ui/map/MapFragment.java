@@ -1,37 +1,26 @@
 package ptr.hf.ui.map;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.PlaceDetectionClient;
-import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
 
@@ -43,7 +32,7 @@ import ptr.hf.network.ErrorResponse;
 import ptr.hf.network.IApiResultListener;
 import ptr.hf.network.Station;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
+public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.InfoWindowAdapter {
 
     private ArrayList<Station> stations;
     private MapView mapView;
@@ -52,6 +41,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private PlaceDetectionClient placeDetectionClient;
     private FusedLocationProviderClient fusedLocationProviderClient;
     Unbinder unbinder;
+
+    private LayoutInflater layoutInflater;
 
     @Nullable
     @Override
@@ -122,12 +113,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             }
         googleMap.setOnMarkerClickListener(this);
 
-        CameraUpdate center=
-                CameraUpdateFactory.newLatLng(new LatLng(47.4734528,19.0576992));
-        CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+        googleMap.setMyLocationEnabled(true);
 
-        map.moveCamera(center);
-        map.animateCamera(zoom);
+//        map.moveCamera(center);
+//        map.animateCamera(zoom);
     }
 
 
@@ -154,10 +143,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     }
 
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public View getInfoWindow(Marker marker) {
+        return null;
+    }
+
+    @Override
+    public View getInfoContents(Marker marker) {
+        View popup = layoutInflater.inflate(R.layout.popup, null);
+        TextView tv=(TextView)popup.findViewById(R.id.title);
+
+        tv.setText(marker.getTitle());
+        tv=(TextView)popup.findViewById(R.id.snippet);
+        tv.setText(marker.getSnippet());
+
+        return(popup);
     }
 }
