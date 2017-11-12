@@ -34,4 +34,5 @@
     <string name="information">Információ</string>
     <string name="logout">Kijelentkezés</string>
     <string name="config_rest_api_url">https://api.openchargemap.io/v2/</string>
+    <string name="directionsApiKey">AIzaSyDtRKzb5VsX07BMeWFxhZn_T_e6sSOM6-0</string>
 </resources>

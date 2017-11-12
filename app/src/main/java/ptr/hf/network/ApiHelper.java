@@ -60,7 +60,7 @@ public enum ApiHelper {
 
     public void getStations(final IApiResultListener<ArrayList<Station>> resultListener) {
         chargerService
-                .getStations("HU", 1000)
+                .getStations("HU", 3)
                 .enqueue(new RestCallback<>(resultListener));
     }
 

@@ -13,7 +13,7 @@
         android:gravity="center"
         android:text="Aktuális foglalásom"
         android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/white"
         android:textSize="24dp" />
 
     <LinearLayout
@@ -42,7 +42,7 @@
         android:gravity="center"
         android:text="Korábbi foglalásaim"
         android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/white"
         android:textSize="24dp" />
 
     <LinearLayout

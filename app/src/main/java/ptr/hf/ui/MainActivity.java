@@ -37,6 +37,12 @@ import ptr.hf.ui.map.MapFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private static MainActivity INSTANCE;
+
+
+    public static MainActivity getInstance() {
+        return INSTANCE;
+    }
 
     FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -199,7 +205,7 @@ public class MainActivity extends AppCompatActivity
             finish();
         } else if (id == R.id.nav_info) {
             toolbar.setTitle(R.string.information);
-//            fragment = new InformationFragment();
+            fragment = new InformationFragment();
         }
 
         fragmentManager
