@@ -3,10 +3,16 @@ package ptr.hf.ui;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ViewFlipper;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -17,18 +23,25 @@ import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import ptr.hf.R;
+import ptr.hf.ui.map.MapFragment;
 
 public class StatisticsFragment extends Fragment {
 
     @BindView(R.id.chart)
     LineChart chart;
     Unbinder unbinder;
+    @BindView(R.id.reservation)
+    LinearLayout reservation;
+    @BindView(R.id.vf)
+    ViewFlipper vf;
+    @BindView(R.id.send_reservation)
+    Button sendReservation;
 
     @Nullable
     @Override
@@ -55,13 +68,13 @@ public class StatisticsFragment extends Fragment {
 
         if (chart.getData() != null &&
                 chart.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet)chart.getData().getDataSetByIndex(0);
+            set1 = (LineDataSet) chart.getData().getDataSetByIndex(0);
             set1.setValues(yVals);
             chart.getData().notifyDataChanged();
             chart.notifyDataSetChanged();
         } else {
             // create a dataset and give it a type
-            set1 = new LineDataSet(yVals, "DataSet 1");
+            set1 = new LineDataSet(yVals, "kW / km");
 
             set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
             set1.setCubicIntensity(0.2f);
@@ -100,5 +113,49 @@ public class StatisticsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.reservation)
+    public void onViewClicked() {
+        vf.setDisplayedChild(1);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (getView() == null) {
+            return;
+        }
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                    if (vf.getDisplayedChild() == 1)
+                        vf.setDisplayedChild(0);
+                    else
+                        MainActivity.getInstance().onBackPressed();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+
+    @OnClick(R.id.send_reservation)
+    public void onsendClicked() {
+        Snackbar
+                .make(getActivity().findViewById(android.R.id.content),
+                        "Sikeres adatbevitel!",
+                        Snackbar.LENGTH_LONG)
+                .show();
+        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.container, new MapFragment());
+        ft.commit();
     }
 }

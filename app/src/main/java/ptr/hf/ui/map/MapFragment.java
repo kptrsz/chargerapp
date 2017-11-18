@@ -241,8 +241,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     private void getStationsFromOCM() {
 
-//        ApiHelper.INSTANCE.getStations(getMyLocation().lat, getMyLocation().lng, 25, new IApiResultListener<ArrayList<Station>>() {
-        ApiHelper.INSTANCE.getStations(47.5, 19.0, 25, new IApiResultListener<ArrayList<Station>>() {
+        ApiHelper.INSTANCE.getStations(getMyLocation().lat, getMyLocation().lng, 25, 25, new IApiResultListener<ArrayList<Station>>() {
+//        ApiHelper.INSTANCE.getStations(47.5, 19.0, 25, new IApiResultListener<ArrayList<Station>>() {
             @Override
             public void success(ArrayList<Station> result) {
                 if (getContext() != null) {

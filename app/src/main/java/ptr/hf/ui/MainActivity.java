@@ -185,7 +185,8 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = new MapFragment();
 
         if (id == R.id.nav_maps) {
-            toolbar.setTitle(R.string.map);
+//            toolbar.setTitle(R.string.map);
+            toolbar.setTitle("Közeli töltőállomások");
             fragment = new MapFragment();
         } else if (id == R.id.nav_reservation) {
             toolbar.setTitle(R.string.reservation);

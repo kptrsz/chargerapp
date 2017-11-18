@@ -9,6 +9,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.Interceptor;
@@ -41,6 +42,9 @@ public enum ApiHelper {
         OkHttpClient client = new OkHttpClient.Builder()
 //                .addNetworkInterceptor(interceptor)   //TODO remove in production
                 .addNetworkInterceptor(new StethoInterceptor())
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
 //                .addInterceptor(new MyInterceptor())
                 .build();
 
@@ -58,9 +62,9 @@ public enum ApiHelper {
         chargerService = retrofit.create(ChargerService.class);
     }
 
-    public void getStations(Double latitude, Double longitude, Integer distance, final IApiResultListener<ArrayList<Station>> resultListener) {
+    public void getStations(Double latitude, Double longitude, Integer distance, Integer maxResult,final IApiResultListener<ArrayList<Station>> resultListener) {
         chargerService
-                .getStations(true, false, latitude, longitude, distance, 25)
+                .getStations(true, false, latitude, longitude, distance, maxResult)
                 .enqueue(new RestCallback<>(resultListener));
 
 //        https://api.openchargemap.io/v2/poi/?output=json&maxresults=100&compact=true&verbose=false&latitude=47&longitude=19&distance=10
