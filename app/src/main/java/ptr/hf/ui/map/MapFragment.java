@@ -245,19 +245,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         ApiHelper.INSTANCE.getStations(47.5, 19.0, 25, new IApiResultListener<ArrayList<Station>>() {
             @Override
             public void success(ArrayList<Station> result) {
-
-                stations.clear();
-                stations.addAll(result);
-                if (stations != null) {
-                    for (Station station : stations) {
-                        MarkerOptions markerOptions = new MarkerOptions().position(station.getLatLng()).title(station.getAddressTitle());
-                        markerOptions.snippet(station.getAddress());
-                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin));
-                        Marker marker = map.addMarker(markerOptions);
-                        positionCamera(new LatLng(getMyLocation().lat, getMyLocation().lng), map);
+                if (getContext() != null) {
+                    stations.clear();
+                    stations.addAll(result);
+                    if (stations != null) {
+                        for (Station station : stations) {
+                            MarkerOptions markerOptions = new MarkerOptions().position(station.getLatLng()).title(station.getAddressTitle());
+                            markerOptions.snippet(station.getAddress());
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin));
+                            Marker marker = map.addMarker(markerOptions);
+                            positionCamera(new LatLng(getMyLocation().lat, getMyLocation().lng), map);
+                        }
                     }
+                    dialog.dismiss();
                 }
-                dialog.dismiss();
 
             }
 

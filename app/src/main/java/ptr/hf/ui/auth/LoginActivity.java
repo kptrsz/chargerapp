@@ -270,12 +270,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         signInWithEmailAndPassword(email, password);
 //                    progress.dismiss();
                     } else if (!isEmailValid(email)) {
-                        makeSnack("Az e-mail cím nem megfelelő");
+                        makeSnack("Az e-mail cím nem megfelelő.");
                     } else
-                        makeSnack("A jelszó nem megfelelő");
-                else if (loginPassword.getText() == loginPassword2.getText())
+                        makeSnack("A jelszó nem megfelelő.");
+                else if (loginPassword.getText().toString().equals(loginPassword2.getText().toString()))
                     createUserWithEmailAndPassword(email, password);
-                else makeSnack("A két jelszó nem egyezik meg!");
+                else if (!isEmailValid(email))
+                    makeSnack("Nem megfelelő e-mail cím.");
+                else if (!loginPassword.getText().toString().equals(loginPassword2.getText().toString()))
+                    makeSnack("A két jelszó nem egyezik meg.");
+                else makeSnack("Nem sikerült kapcsolódni a kiszolgálóhoz, kérem próbálja újra később.");
                 break;
             case R.id.login_google:
                 progress.show();
