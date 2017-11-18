@@ -238,7 +238,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void makeSnack(String message) {
         Snackbar
-                .make(findViewById(android.R.id.content),
+                .make(findViewById(R.id.placeSnackBar),
                         message,
                         Snackbar.LENGTH_LONG)
                 .show();

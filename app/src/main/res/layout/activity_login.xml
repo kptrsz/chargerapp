@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ImageView
         android:layout_width="match_parent"
@@ -9,12 +10,17 @@
         android:scaleType="centerCrop"
         android:src="@drawable/traffic" />
 
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/placeSnackBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="false"
+        android:fitsSystemWindows="true"
         android:orientation="vertical">
 
 
@@ -22,7 +28,7 @@
             android:id="@+id/login_email"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:layout_marginTop="176dp"
+            android:layout_marginTop="120dp"
             android:background="@color/transparentColorPrimary"
             android:ems="10"
             android:hint="E-mail"
@@ -80,35 +86,43 @@
             android:textAllCaps="true"
             android:textColor="@color/colorPrimaryDark" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparentColorPrimaryLight"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+
+                android:id="@+id/login_reset"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Elfelejtett jelszó"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/login_register"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Regisztráció"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent" />
+
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/login_reset"
-            android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_marginBottom="18dp"
-            android:layout_weight="1"
-            android:text="Elfelejtett jelszó"
-            android:textAlignment="center"
-            android:textColor="@color/colorAccent" />
-
-        <TextView
-            android:id="@+id/login_register"
-            android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_marginBottom="18dp"
-            android:layout_weight="1"
-            android:text="Regisztráció"
-            android:textAlignment="center"
-            android:textColor="@color/colorAccent" />
-
-    </LinearLayout>
-
-
-</RelativeLayout>
+</FrameLayout>

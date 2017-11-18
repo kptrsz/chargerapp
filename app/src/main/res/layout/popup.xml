@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12dp"
-            android:text="A benzinkút parkolójában. A töltés ingyenes, de a műveletet a kútkezelő indítja és fejezi be (a náluk lévő RFID kártya szükséges).","/>
+            android:text="A benzinkút parkolójában. A töltés ingyenes, de a műveletet a kútkezelő indítja és fejezi be (a náluk lévő RFID kártya szükséges)."/>
 <TextView
             android:id="@+id/Distance"
             android:layout_width="match_parent"
