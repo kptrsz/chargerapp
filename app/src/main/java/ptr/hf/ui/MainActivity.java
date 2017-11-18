@@ -34,6 +34,7 @@ import ptr.hf.App;
 import ptr.hf.R;
 import ptr.hf.ui.auth.LoginActivity;
 import ptr.hf.ui.map.MapFragment;
+import ptr.hf.ui.map.MapFragment2;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -188,7 +189,7 @@ public class MainActivity extends AppCompatActivity
             fragment = new MapFragment();
         } else if (id == R.id.nav_reservation) {
             toolbar.setTitle(R.string.reservation);
-            fragment = new ReservationFragment();
+            fragment = new MapFragment2();
         } else if (id == R.id.nav_my_reservations) {
             toolbar.setTitle("Foglalásaim");
             fragment = new MyReservationFragment();

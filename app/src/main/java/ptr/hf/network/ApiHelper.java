@@ -58,10 +58,12 @@ public enum ApiHelper {
         chargerService = retrofit.create(ChargerService.class);
     }
 
-    public void getStations(final IApiResultListener<ArrayList<Station>> resultListener) {
+    public void getStations(Double latitude, Double longitude, Integer distance, final IApiResultListener<ArrayList<Station>> resultListener) {
         chargerService
-                .getStations("HU", 3)
+                .getStations(true, false, latitude, longitude, distance, 25)
                 .enqueue(new RestCallback<>(resultListener));
+
+//        https://api.openchargemap.io/v2/poi/?output=json&maxresults=100&compact=true&verbose=false&latitude=47&longitude=19&distance=10
     }
 
 //    public void postReservation(String chargerId, String userId, Integer from, Integer to, final IApiResultListener<ReservationResponse> resultListener) {
