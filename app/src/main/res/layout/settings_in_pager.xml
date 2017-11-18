@@ -4,10 +4,88 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Spinner
-        android:id="@+id/spinner_connectors"
+    <TextView
         android:layout_width="match_parent"
-        android:spinnerMode="dropdown"
-        android:layout_height="60dp" />
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Töltő típusa:" />
 
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/chargers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Kérem válasszon" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Hatótáv:" />
+
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Kérem válasszon" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Töltő típusa:" />
+
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/chargers2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Kérem válasszon" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Töltő típusa:" />
+
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/chargers3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Kérem válasszon" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Töltő típusa:" />
+
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/chargers4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Kérem válasszon" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark"/>
 </LinearLayout>
