@@ -311,7 +311,7 @@
                     android:background="@drawable/edittext_bg"
                     android:gravity="center"
                     android:paddingLeft="8dp"
-                    android:text="Új felvétele"
+                    android:text="Bevitel"
                     android:textColor="@color/colorPrimaryDark" />
             </LinearLayout>
 

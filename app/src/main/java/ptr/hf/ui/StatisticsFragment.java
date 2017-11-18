@@ -10,7 +10,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ViewFlipper;
 
@@ -35,19 +34,20 @@ public class StatisticsFragment extends Fragment {
 
     @BindView(R.id.chart)
     LineChart chart;
-    Unbinder unbinder;
     @BindView(R.id.reservation)
     LinearLayout reservation;
     @BindView(R.id.vf)
     ViewFlipper vf;
     @BindView(R.id.send_reservation)
-    Button sendReservation;
+    LinearLayout sendReservation;
+    Unbinder unbinder;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        ButterKnife.bind(this, view);
 
         chart.setViewPortOffsets(0, 0, 0, 0);
         chart.setBackgroundColor(Color.rgb(0, 188, 212));
@@ -106,6 +106,7 @@ public class StatisticsFragment extends Fragment {
 
         }
 
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -138,7 +139,7 @@ public class StatisticsFragment extends Fragment {
                     if (vf.getDisplayedChild() == 1)
                         vf.setDisplayedChild(0);
                     else
-                        MainActivity.getInstance().onBackPressed();
+                        getActivity().onBackPressed();
                     return true;
                 }
                 return false;

@@ -33,6 +33,7 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         View view = inflater.inflate(R.layout.settings_in_pager, container, false);
 //        Spinner spinner = (Spinner) view.findViewById(R.id.spinner_connectors);
+        ButterKnife.bind(this, view);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.list_connectors, android.R.layout.simple_spinner_item);
