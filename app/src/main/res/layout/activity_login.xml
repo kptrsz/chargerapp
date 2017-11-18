@@ -13,8 +13,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/placeSnackBar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="64dp" />
 
 
     <LinearLayout
@@ -31,7 +30,7 @@
             android:layout_marginTop="120dp"
             android:background="@color/transparentColorPrimary"
             android:ems="10"
-            android:hint="E-mail"
+            android:hint="E-mail cím"
             android:inputType="textEmailAddress"
             android:padding="16dp"
             android:textColor="@color/colorPrimaryDark" />
@@ -48,7 +47,24 @@
             android:layout_height="64dp"
             android:background="@color/transparentColorPrimary"
             android:ems="10"
-            android:hint="Password"
+            android:hint="Jelszó"
+            android:inputType="textPassword"
+            android:padding="16dp"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/transparentColorPrimaryDark" />
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/login_password2"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@color/transparentColorPrimary"
+            android:ems="10"
+            android:hint="Jelszó megismétlése"
             android:inputType="textPassword"
             android:padding="16dp"
             android:textColor="@color/colorPrimaryDark" />
@@ -92,6 +108,7 @@
             android:layout_weight="1" />
 
         <LinearLayout
+            android:id="@+id/resetAndRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/transparentColorPrimaryLight"

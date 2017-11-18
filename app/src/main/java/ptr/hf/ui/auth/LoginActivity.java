@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
@@ -29,7 +30,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,6 +58,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     TextView loginReset;
     @BindView(R.id.login_register)
     TextView loginRegister;
+    @BindView(R.id.login_password2)
+    TextInputEditText loginPassword2;
+    @BindView(R.id.resetAndRegister)
+    LinearLayout resetAndRegister;
 
     private FirebaseAuth firebaseAuth;
     private GoogleApiClient googleApiClient;
@@ -260,14 +264,18 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         switch (view.getId()) {
             case R.id.login_button:
-                if (isEmailValid(email)) {
-                    progress.show();
-                    signInWithEmailAndPassword(email, password);
+                if (loginPassword2.getVisibility() == View.GONE)
+                    if (isEmailValid(email)) {
+                        progress.show();
+                        signInWithEmailAndPassword(email, password);
 //                    progress.dismiss();
-                } else if (!isEmailValid(email)) {
-                    makeSnack("Az e-mail cím nem megfelelő");
-                } else
-                    makeSnack("A jelszó nem megfelelő");
+                    } else if (!isEmailValid(email)) {
+                        makeSnack("Az e-mail cím nem megfelelő");
+                    } else
+                        makeSnack("A jelszó nem megfelelő");
+                else if (loginPassword.getText() == loginPassword2.getText())
+                    createUserWithEmailAndPassword(email, password);
+                else makeSnack("A két jelszó nem egyezik meg!");
                 break;
             case R.id.login_google:
                 progress.show();
@@ -283,16 +291,34 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     makeSnack("Az e-mail cím nem megfelelő");
                 break;
             case R.id.login_register:
-                if (isEmailValid(email) && password.length() < 6) {
-                    progress.show();
-                    createUserWithEmailAndPassword(email, password);
-//                    progress.dismiss();
-                } else if (!isEmailValid(email))
-                    makeSnack("Az e-mail cím nem megfelelő");
-                else
-                    makeSnack("A jelszónak legalább 6 karakternek kell lennie");
+                loginPassword2.setVisibility(View.VISIBLE);
+                loginGoogle.setVisibility(View.GONE);
+                loginButton.setText("Regisztráció és Bejelentkezés");
+                resetAndRegister.setVisibility(View.GONE);
+//                if (isEmailValid(email) /*&& password.length() > 6*/) {
+//                    loginPassword2.setVisibility(View.VISIBLE);
+//                    loginGoogle.setVisibility(View.GONE);
+//                    loginButton.setText("Regisztráció és Bejelentkezés");
+////                    createUserWithEmailAndPassword(email, password);
+////                    progress.dismiss();
+//                } else if (!isEmailValid(email))
+//                    makeSnack("Az e-mail cím nem megfelelő");
+//                else
+//                    makeSnack("A jelszónak legalább 6 karakternek kell lennie");
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (loginPassword2.getVisibility() == View.VISIBLE) {
+            loginPassword2.setVisibility(View.GONE);
+            loginGoogle.setVisibility(View.VISIBLE);
+            loginButton.setText("Bejelentkezés");
+            resetAndRegister.setVisibility(View.VISIBLE);
+
+        } else
+            super.onBackPressed();
     }
 }
 
