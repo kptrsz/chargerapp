@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.veryTransparentColorPrimaryDark));
 
-        toolbar.setTitle(R.string.map);
+        toolbar.setTitle("Közeli töltőállomások");
         fragmentManager
                 .beginTransaction()
                 .replace(R.id.container, new MapFragment())
