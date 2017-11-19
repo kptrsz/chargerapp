@@ -32,11 +32,11 @@
             android:padding="8dp"
             android:text="Hatótáv:" />
 
-        <com.jaredrummler.materialspinner.MaterialSpinner
+        <EditText
             android:id="@+id/distance"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:hint="Kérem válasszon" />
+            android:hint="km" />
 
         <View
             android:layout_width="wrap_content"

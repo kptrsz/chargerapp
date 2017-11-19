@@ -70,6 +70,12 @@ public enum ApiHelper {
 //        https://api.openchargemap.io/v2/poi/?output=json&maxresults=100&compact=true&verbose=false&latitude=47&longitude=19&distance=10
     }
 
+//    public void getStations(final IApiResultListener<ArrayList<Station>> resultListener) {
+//        chargerService
+//                .getStations("HU", 1000)
+//                .enqueue(new RestCallback<>(resultListener));
+//    }
+
 //    public void postReservation(String chargerId, String userId, Integer from, Integer to, final IApiResultListener<ReservationResponse> resultListener) {
 //        chargerService
 //                .postReservation(chargerId, userId, from, to)

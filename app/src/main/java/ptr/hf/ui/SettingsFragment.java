@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
@@ -22,7 +23,7 @@ public class SettingsFragment extends Fragment {
     @BindView(R.id.chargers)
     MaterialSpinner chargers;
     @BindView(R.id.distance)
-    MaterialSpinner distance;
+    TextView distance;
     @BindView(R.id.chargers2)
     MaterialSpinner chargers2;
     @BindView(R.id.chargers3)
@@ -42,7 +43,7 @@ public class SettingsFragment extends Fragment {
 
 
         chargers.setItems("CHAdeMO ", "CCS ", "CATARC", "COMBO-1", "COMBO-2");
-        distance.setItems("100-150km", "150-200km", "200-250km", "250-300km", "300+ km");
+//        distance.setItems("100-150km", "150-200km", "200-250km", "250-300km", "300+ km");
         chargers2.setItems("Nissan", "Tesla", "BMW", "Volkswagen", "egyéb");
         chargers3.setItems("2011", "2012", "2013", "2014", "2015", "2016", "2017");
 

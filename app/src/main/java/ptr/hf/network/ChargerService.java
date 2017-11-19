@@ -21,6 +21,11 @@ public interface ChargerService {
 //            @Query("countrycode") String countryCode,
             @Query("maxresults") int maxResults);
 
+    @GET("openchargemap/v2/poi/")
+    Call<ArrayList<Station>> getStationsHU(
+            @Query("countrycode") String countryCode,
+            @Query("maxresults") int maxResults);
+
     @POST("reservation/add")
     Call<Void> postReservation(@Query("chargerId") String chargerId,
                                @Query("userId") String userId,
