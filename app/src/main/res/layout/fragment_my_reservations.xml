@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryLight"
+    android:background="@color/colorPrimaryDark"
     android:orientation="vertical">
 
     <TextView
@@ -30,7 +30,7 @@
             android:background="@color/transparentColorPrimary"
             android:gravity="center"
             android:text="Nincs aktuális foglalás!"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textColor="@color/colorPrimaryLight" />
 
     </LinearLayout>
 
@@ -64,8 +64,8 @@
                 android:layout_weight="0.98"
                 android:background="@color/transparentColorPrimary"
                 android:gravity="center"
-                android:text="2017-02-24"
-                android:textColor="@color/colorPrimaryDark" />
+                android:text="2017-02-24 \n13:20-13:40"
+                android:textColor="@color/colorPrimaryLight" />
 
             <View
                 android:layout_width="0dp"
@@ -79,8 +79,8 @@
                 android:layout_weight="0.98"
                 android:background="@color/transparentColorPrimary"
                 android:gravity="center"
-                android:text="2017-02-20"
-                android:textColor="@color/colorPrimaryDark" />
+                android:text="2017-02-20 \n13:20-13:40"
+                android:textColor="@color/colorPrimaryLight" />
 
             <View
                 android:layout_width="0dp"
@@ -94,8 +94,8 @@
                 android:layout_weight="0.98"
                 android:background="@color/transparentColorPrimary"
                 android:gravity="center"
-                android:text="2017-02-14"
-                android:textColor="@color/colorPrimaryDark" />
+                android:text="2017-02-14 \n13:20-13:40"
+                android:textColor="@color/colorPrimaryLight" />
 
             <View
                 android:layout_width="0dp"
@@ -109,8 +109,8 @@
                 android:layout_weight="0.98"
                 android:background="@color/transparentColorPrimary"
                 android:gravity="center"
-                android:text="2017-02-11"
-                android:textColor="@color/colorPrimaryDark" />
+                android:text="2017-02-11 \n13:20-13:40"
+                android:textColor="@color/colorPrimaryLight" />
 
 
         </LinearLayout>
