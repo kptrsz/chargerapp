@@ -1,22 +1,27 @@
 package ptr.hf.network;
 
 class Start {
-    String lat;
-    String lng;
+    Double latitude;
+    Double longitude;
 
-    public String getLng() {
-        return lng;
+    public Start(Double latitude, Double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public void setLng(String lng) {
-        this.lng = lng;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public String getLat() {
-        return lat;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
-    public void setLat(String lat) {
-        this.lat = lat;
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }

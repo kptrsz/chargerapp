@@ -210,6 +210,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private void addPolyline(DirectionsResult results, GoogleMap mMap) {
         if (polylineFinal != null)
             polylineFinal.remove();
+        if(results.routes[overview].overviewPolyline == null)
+            return;
         List<LatLng> decodedPath = PolyUtil.decode(results.routes[overview].overviewPolyline.getEncodedPath());
         PolylineOptions rectLine = new PolylineOptions().width(10).color(getResources().getColor(R.color.white));
         polylineOptions = rectLine.addAll(decodedPath);
@@ -241,10 +243,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     private void getStationsFromOCM() {
 
-        ApiHelper.INSTANCE.getStations(getMyLocation().lat, getMyLocation().lng, 25, 25, new IApiResultListener<ArrayList<Station>>() {
-//        ApiHelper.INSTANCE.getStations(47.5, 19.0, 25, new IApiResultListener<ArrayList<Station>>() {
+        ApiHelper.INSTANCE.getStations(getMyLocation().lat, getMyLocation().lng, 2500, 10, new IApiResultListener<List<Station>>() {
+            //        ApiHelper.INSTANCE.getStations(47.5, 19.0, 25, new IApiResultListener<ArrayList<Station>>() {
             @Override
-            public void success(ArrayList<Station> result) {
+            public void success(List<Station> result) {
                 if (getContext() != null) {
                     stations.clear();
                     stations.addAll(result);
@@ -360,20 +362,75 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         positionCamera(new LatLng(getMyLocation().lat, getMyLocation().lng), map);
         getStationsFromOCM();
+//        getDirections(map);
     }
 
-    private void getDirections(GoogleMap googleMap, com.google.maps.model.LatLng latLng) {
+    private void getDirections(final GoogleMap googleMap, final com.google.maps.model.LatLng latLng) {
 
         googleMap.clear();
         com.google.maps.model.LatLng myLoc = getMyLocation();
-        DirectionsResult results = getDirectionsDetails(
-                myLoc,
-                latLng, TravelMode.DRIVING);
-        if (results != null) {
-            addPolyline(results, googleMap);
-            addMarkersToMap(results, googleMap);
-            positionCamera(new LatLng(latLng.lat, latLng.lng), googleMap);
-        }
+//        DirectionsResult results = getDirectionsDetails(
+//                myLoc,
+//                latLng, TravelMode.DRIVING);
+        ApiHelper.INSTANCE.getRoute(new IApiResultListener<DirectionsResult>() {
+            @Override
+            public void success(DirectionsResult result) {
+                DirectionsResult results = result;
+                if (results != null) {
+                    addPolyline(results, googleMap);
+                    addMarkersToMap(results, googleMap);
+                    positionCamera(new LatLng(47.4734695, 19.0595492), googleMap);
+                }
+            }
+
+            @Override
+            public void error(ErrorResponse errorResponse) {
+
+            }
+
+            @Override
+            public void fail() {
+
+            }
+        });
+    }
+
+    private void getDirections(final GoogleMap googleMap/*,final com.google.maps.model.LatLng latLng*/) {
+
+        googleMap.clear();
+        com.google.maps.model.LatLng myLoc = getMyLocation();
+//        DirectionsResult results = getDirectionsDetails(
+//                myLoc,
+//                latLng, TravelMode.DRIVING);
+        ApiHelper.INSTANCE.getRoute(new IApiResultListener<DirectionsResult>() {
+            @Override
+            public void success(DirectionsResult result) {
+                DirectionsResult results = result;
+                if (results != null) {
+                    addPolyline(results, googleMap);
+                    addMarkersToMap(results, googleMap);
+                    positionCamera(new LatLng(47.4734695, 19.0595492), googleMap);
+                }
+            }
+
+            @Override
+            public void error(ErrorResponse errorResponse) {
+
+            }
+
+            @Override
+            public void fail() {
+
+            }
+        });
+//        DirectionsResult results = getDirectionsDetails(
+//                myLoc,
+//                latLng, TravelMode.DRIVING);
+//        if (results != null) {
+//            addPolyline(results, googleMap);
+//            addMarkersToMap(results, googleMap);
+//            positionCamera(new LatLng(latLng.lat, latLng.lng), googleMap);
+//        }
 
     }
 

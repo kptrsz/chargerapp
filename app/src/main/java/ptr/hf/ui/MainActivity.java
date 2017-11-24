@@ -30,7 +30,7 @@ import com.squareup.picasso.Transformation;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ptr.hf.App;
+import ptr.hf.ChargerApplication;
 import ptr.hf.R;
 import ptr.hf.ui.auth.LoginActivity;
 import ptr.hf.ui.map.MapFragment;
@@ -111,13 +111,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        App.activityResumed();
+        ChargerApplication.activityResumed();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        App.activityPaused();
+        ChargerApplication.activityPaused();
     }
 
     @Override

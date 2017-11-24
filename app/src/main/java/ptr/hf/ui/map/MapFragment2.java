@@ -230,10 +230,10 @@ public class MapFragment2 extends Fragment implements OnMapReadyCallback, Google
 
     private void getStationsFromOCM() {
 
-        ApiHelper.INSTANCE.getStations(getMyLocation().lat, getMyLocation().lng, 250, 25, new IApiResultListener<ArrayList<Station>>() {
-//        ApiHelper.INSTANCE.getStations(47.5, 19.0, 200000, new IApiResultListener<ArrayList<Station>>() {
+//        ApiHelper.INSTANCE.getStations(getMyLocation().lat, getMyLocation().lng, 2500000, 25, new IApiResultListener<List<Station>>() {
+        ApiHelper.INSTANCE.getStations(47.5, 19.0, 200000, 25, new IApiResultListener<List<Station>>() {
             @Override
-            public void success(ArrayList<Station> result) {
+            public void success(List<Station> result) {
 
                 stations.clear();
                 stations.addAll(result);

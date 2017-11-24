@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import ptr.hf.App;
+import ptr.hf.ChargerApplication;
 import ptr.hf.R;
 import ptr.hf.ui.MainActivity;
 
@@ -118,13 +118,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onResume() {
         super.onResume();
-        App.activityResumed();
+        ChargerApplication.activityResumed();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        App.activityPaused();
+        ChargerApplication.activityPaused();
     }
 
     private void createUserWithEmailAndPassword(final String email, final String password) {

@@ -3,6 +3,7 @@ package ptr.hf.network;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.maps.model.DirectionsResult;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -40,12 +41,10 @@ public enum ApiHelper {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient client = new OkHttpClient.Builder()
-//                .addNetworkInterceptor(interceptor)   //TODO remove in production
-                .addNetworkInterceptor(new StethoInterceptor())
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
-//                .addInterceptor(new MyInterceptor())
+                .addNetworkInterceptor(new StethoInterceptor())
                 .build();
 
         Gson gson = new GsonBuilder()
@@ -62,15 +61,48 @@ public enum ApiHelper {
         chargerService = retrofit.create(ChargerService.class);
     }
 
-    public void getStations(Double latitude, Double longitude, Integer distance, Integer maxResult, final IApiResultListener<ArrayList<Station>> resultListener) {
+    public void getStations(Double latitude, Double longitude, Integer distance, Integer maxResult, final IApiResultListener<List<Station>> resultListener) {
         chargerService
+//                .getStations(new StationRequest(true, false, latitude, longitude, distance, maxResult))
                 .getStations(true, false, latitude, longitude, distance, maxResult)
                 .enqueue(new RestCallback<>(resultListener));
     }
 
     public void postReservation(String chargerId, String userId, Integer from, Integer to, final IApiResultListener<ArrayList<ReservationResponse>> resultListener) {
-        chargerService.postReservation(chargerId, userId, Integer.toString(from), Integer.toString(to)).enqueue(new RestCallback<>(resultListener));
+        chargerService.postReservation(new ReservationRequest(chargerId, userId, Integer.toString(from), Integer.toString(to)))
+                .enqueue(new RestCallback<>(resultListener));
     }
+
+    public void getReservation(String chargerId, String userId, Integer from, Integer to, final IApiResultListener<ArrayList<ReservationResponse>> resultListener) {
+        chargerService.postReservation(new ReservationRequest(chargerId, userId, Integer.toString(from), Integer.toString(to)))
+                .enqueue(new RestCallback<>(resultListener));
+    }
+
+    public void deleteReservation(String chargerId, String userId, Integer from, Integer to, final IApiResultListener<ArrayList<ReservationResponse>> resultListener) {
+        chargerService.postReservation(new ReservationRequest(chargerId, userId, Integer.toString(from), Integer.toString(to)))
+                .enqueue(new RestCallback<>(resultListener));
+    }
+
+    public void putReservation(String chargerId, String userId, Integer from, Integer to, final IApiResultListener<ArrayList<ReservationResponse>> resultListener) {
+        chargerService.postReservation(new ReservationRequest(chargerId, userId, Integer.toString(from), Integer.toString(to)))
+                .enqueue(new RestCallback<>(resultListener));
+    }
+
+    public void getRoute(final IApiResultListener<DirectionsResult> resultListener) {
+        Gson gson = new Gson();
+        chargerService.getRoute((new RouteRequest(100000, new Start(47.4734695, 19.0595492), new Start(47.952203, 21.720380))))
+                .enqueue(new RestCallback<>(resultListener));
+    }
+
+    public void getSettings(String userId, final IApiResultListener<UserSettings> resultListener) {
+        chargerService.getSettings(userId).enqueue(new RestCallback<>(resultListener));
+    }
+
+    public void postSettings(UserSettings userSettings, final IApiResultListener<UserSettings> resultListener) {
+        chargerService.postSettings(userSettings).enqueue(new RestCallback<>(resultListener));
+    }
+
+
 //    public void getStations(final IApiResultListener<ArrayList<Station>> resultListener) {
 //        chargerService
 //                .getStations("HU", 1000)
