@@ -17,6 +17,17 @@ public class Reservation {
     @SerializedName("to")
     Date to;
 
+    @SerializedName("id")
+    String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getChargerId() {
         return chargerId;
     }

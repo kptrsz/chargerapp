@@ -2,12 +2,14 @@ package ptr.hf.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class ReservationResponse {
     @SerializedName("success")
     Boolean success;
 
     @SerializedName("data")
-    ReservationData data;
+    List<Reservation> data;
 
     public Boolean getSuccess() {
         return success;
@@ -17,11 +19,11 @@ public class ReservationResponse {
         this.success = success;
     }
 
-    public ReservationData getData() {
+    public List<Reservation> getData() {
         return data;
     }
 
-    public void setData(ReservationData data) {
+    public void setData(List<Reservation> data) {
         this.data = data;
     }
 }

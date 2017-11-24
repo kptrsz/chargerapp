@@ -62,14 +62,15 @@ public enum ApiHelper {
         chargerService = retrofit.create(ChargerService.class);
     }
 
-    public void getStations(Double latitude, Double longitude, Integer distance, Integer maxResult,final IApiResultListener<ArrayList<Station>> resultListener) {
+    public void getStations(Double latitude, Double longitude, Integer distance, Integer maxResult, final IApiResultListener<ArrayList<Station>> resultListener) {
         chargerService
                 .getStations(true, false, latitude, longitude, distance, maxResult)
                 .enqueue(new RestCallback<>(resultListener));
-
-//        https://api.openchargemap.io/v2/poi/?output=json&maxresults=100&compact=true&verbose=false&latitude=47&longitude=19&distance=10
     }
 
+    public void postReservation(String chargerId, String userId, Integer from, Integer to, final IApiResultListener<ArrayList<ReservationResponse>> resultListener) {
+        chargerService.postReservation(chargerId, userId, Integer.toString(from), Integer.toString(to)).enqueue(new RestCallback<>(resultListener));
+    }
 //    public void getStations(final IApiResultListener<ArrayList<Station>> resultListener) {
 //        chargerService
 //                .getStations("HU", 1000)
@@ -81,10 +82,6 @@ public enum ApiHelper {
 //                .postReservation(chargerId, userId, from, to)
 //                .enqueue(new RestCallback<>(resultListener));
 //    }
-
-    public void postReservation(String chargerId, String userId, Integer from, Integer to, final IApiFinishedListener finishedListener) {
-        chargerService.postReservation(chargerId, userId, Integer.toString(from), Integer.toString(to)).enqueue(new RestCallback<Void>(finishedListener));
-    }
 
 
 }

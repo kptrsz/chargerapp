@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -34,15 +35,17 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import ptr.hf.R;
+import ptr.hf.model.ReservationResponse;
 import ptr.hf.network.ApiHelper;
 import ptr.hf.network.ErrorResponse;
 import ptr.hf.network.IApiFinishedListener;
+import ptr.hf.network.IApiResultListener;
 import ptr.hf.ui.auth.LoginActivity;
 import ptr.hf.ui.map.MapFragment;
 
 public class ReservationFragment extends Fragment {
 
-//    @BindView(R.id.edittext_chargerid)
+    //    @BindView(R.id.edittext_chargerid)
 //    EditText edittextChargerid;
     @BindView(R.id.datepicker_from)
     Button datepickerFrom;
@@ -108,9 +111,9 @@ public class ReservationFragment extends Fragment {
                         user.getEmail(),
                         (int) getDate(yearFrom, monthFrom, dayFrom, hourFrom, minuteFrom, 0).getTime(),
                         (int) getDate(yearTo, monthTo, dayTo, hourTo, minuteTo, 0).getTime(),
-                        new IApiFinishedListener() {
+                        new IApiResultListener<ArrayList<ReservationResponse>>() {
                             @Override
-                            public void success() {
+                            public void success(ArrayList<ReservationResponse> result) {
                                 Snackbar
                                         .make(getActivity().findViewById(android.R.id.content),
                                                 "Sikeres foglalás!",
@@ -130,7 +133,20 @@ public class ReservationFragment extends Fragment {
                             public void fail() {
 
                             }
-                        });
+                        }
+//                        new IApiFinishedListener() {
+//                            @Override
+//                            public void success() {
+//                                Snackbar
+//                                        .make(getActivity().findViewById(android.R.id.content),
+//                                                "Sikeres foglalás!",
+//                                                Snackbar.LENGTH_LONG)
+//                                        .show();
+//                                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                                ft.replace(R.id.container, new MapFragment());
+//                                ft.commit();
+//                            }
+                );
     }
 
     public static Date getDate(int year, int month, int day, int hour, int minute, int second) {

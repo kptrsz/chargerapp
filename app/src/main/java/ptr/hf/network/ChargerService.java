@@ -1,13 +1,18 @@
 package ptr.hf.network;
 
+import com.google.maps.model.DirectionsResult;
+
 import java.util.ArrayList;
 import java.util.Date;
 
 import ptr.hf.model.Reservation;
 import ptr.hf.model.ReservationResponse;
 import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 public interface ChargerService {
@@ -26,9 +31,38 @@ public interface ChargerService {
             @Query("countrycode") String countryCode,
             @Query("maxresults") int maxResults);
 
-    @POST("reservation/add")
-    Call<Void> postReservation(@Query("chargerId") String chargerId,
-                               @Query("userId") String userId,
-                               @Query("from") String from,
-                               @Query("to") String to);
+    @POST("reservation")
+    Call<ArrayList<ReservationResponse>> postReservation(
+            @Body String chargerId,
+            @Body String userId,
+            @Body String from,
+            @Body String to);
+
+    @GET("reservation")
+    Call<ArrayList<ReservationResponse>> getReservation(
+            @Body String chargerId,
+            @Body String userId,
+            @Body String from,
+            @Body String to);
+
+    @PUT("reservation")
+    Call<ArrayList<ReservationResponse>> putReservation(
+            @Body String chargerId,
+            @Body String userId,
+            @Body String from,
+            @Body String to);
+
+    @DELETE("reservation")
+    Call<ArrayList<ReservationResponse>> deleteReservation(
+            @Body String chargerId,
+            @Body String userId,
+            @Body String from,
+            @Body String to);
+
+    @POST("maps/route")
+    Call<DirectionsResult> getRoute(
+            @Body Integer dist,
+            @Body Start start,
+            @Body Start end);
+
 }
