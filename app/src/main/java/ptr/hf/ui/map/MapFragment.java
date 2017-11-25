@@ -188,15 +188,37 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                         .startAddress)
                 .snippet(getEndLocationTitle(results))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin)));
-        positionCamera(new LatLng(
-                results
-                        .routes[overview]
-                        .legs[overview]
-                        .startLocation.lat,
-                results
-                        .routes[overview]
-                        .legs[overview]
-                        .startLocation.lng), map);
+//        positionCamera(new LatLng(
+//                results
+//                        .routes[overview]
+//                        .legs[overview]
+//                        .startLocation.lat,
+//                results
+//                        .routes[overview]
+//                        .legs[overview]
+//                        .startLocation.lng), map);
+        for (int i = 1; i < results.routes[overview].legs.length; i++) {
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(
+                            results
+                                    .routes[overview]
+                                    .legs[i]
+                                    .endLocation.lat,
+                            results
+                                    .routes[overview]
+                                    .legs[i]
+                                    .endLocation.lng))
+                    .title(results
+                            .routes[overview]
+                            .legs[i]
+                            .startAddress)
+                    .title(results.routes[overview].summary)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin)));
+        }
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(new LatLngBounds(new LatLng(results.routes[overview].bounds.southwest.lat, results.routes[overview].bounds.southwest.lng),
+                new LatLng(results.routes[overview].bounds.northeast.lat, results.routes[overview].bounds.northeast.lng)), 80);
+        mMap.animateCamera(cu);
+
     }
 
     private void positionCamera(LatLng route, GoogleMap mMap) {
@@ -210,7 +232,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private void addPolyline(DirectionsResult results, GoogleMap mMap) {
         if (polylineFinal != null)
             polylineFinal.remove();
-        if(results.routes[overview].overviewPolyline == null)
+        if (results.routes[overview].overviewPolyline == null)
             return;
         List<LatLng> decodedPath = PolyUtil.decode(results.routes[overview].overviewPolyline.getEncodedPath());
         PolylineOptions rectLine = new PolylineOptions().width(10).color(getResources().getColor(R.color.white));
@@ -243,7 +265,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     private void getStationsFromOCM() {
 
-        ApiHelper.INSTANCE.getStations(getMyLocation().lat, getMyLocation().lng, 2500, 10, new IApiResultListener<List<Station>>() {
+        ApiHelper.INSTANCE.getStations(getMyLocation().lat, getMyLocation().lng, 300000, 100, new IApiResultListener<List<Station>>() {
             //        ApiHelper.INSTANCE.getStations(47.5, 19.0, 25, new IApiResultListener<ArrayList<Station>>() {
             @Override
             public void success(List<Station> result) {
@@ -368,61 +390,76 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private void getDirections(final GoogleMap googleMap, final com.google.maps.model.LatLng latLng) {
 
         googleMap.clear();
+        final ProgressDialog dialog2 = ProgressDialog.show(getContext(), "",
+                "Tervezés, kérem várjon...", true);
         com.google.maps.model.LatLng myLoc = getMyLocation();
 //        DirectionsResult results = getDirectionsDetails(
 //                myLoc,
 //                latLng, TravelMode.DRIVING);
-        ApiHelper.INSTANCE.getRoute(new IApiResultListener<DirectionsResult>() {
+        ApiHelper.INSTANCE.getRoute(100000, getMyLocation().lat, getMyLocation().lng, latLng.lat, latLng.lng, new IApiResultListener<DirectionsResult>() {
             @Override
             public void success(DirectionsResult result) {
                 DirectionsResult results = result;
                 if (results != null) {
                     addPolyline(results, googleMap);
                     addMarkersToMap(results, googleMap);
-                    positionCamera(new LatLng(47.4734695, 19.0595492), googleMap);
+                    dialog2.dismiss();
+//                    positionCamera(new LatLng(47.4734695, 19.0595492), googleMap);
                 }
             }
 
             @Override
             public void error(ErrorResponse errorResponse) {
+                dialog2.dismiss();
+                Snackbar
+                        .make(getActivity().findViewById(android.R.id.content),
+                                "Megszakadt a kapcsolat a kiszolgálóval, Kérem próbálja újra később",
+                                Snackbar.LENGTH_LONG)
+                        .show();
 
             }
 
             @Override
             public void fail() {
+                dialog2.dismiss();
+                Snackbar
+                        .make(getActivity().findViewById(android.R.id.content),
+                                "Megszakadt a kapcsolat a kiszolgálóval, Kérem próbálja újra később",
+                                Snackbar.LENGTH_LONG)
+                        .show();
 
             }
         });
     }
 
-    private void getDirections(final GoogleMap googleMap/*,final com.google.maps.model.LatLng latLng*/) {
-
-        googleMap.clear();
-        com.google.maps.model.LatLng myLoc = getMyLocation();
-//        DirectionsResult results = getDirectionsDetails(
-//                myLoc,
-//                latLng, TravelMode.DRIVING);
-        ApiHelper.INSTANCE.getRoute(new IApiResultListener<DirectionsResult>() {
-            @Override
-            public void success(DirectionsResult result) {
-                DirectionsResult results = result;
-                if (results != null) {
-                    addPolyline(results, googleMap);
-                    addMarkersToMap(results, googleMap);
-                    positionCamera(new LatLng(47.4734695, 19.0595492), googleMap);
-                }
-            }
-
-            @Override
-            public void error(ErrorResponse errorResponse) {
-
-            }
-
-            @Override
-            public void fail() {
-
-            }
-        });
+//    private void getDirections(final GoogleMap googleMap/*,final com.google.maps.model.LatLng latLng*/) {
+//
+//        googleMap.clear();
+//        com.google.maps.model.LatLng myLoc = getMyLocation();
+////        DirectionsResult results = getDirectionsDetails(
+////                myLoc,
+////                latLng, TravelMode.DRIVING);
+//        ApiHelper.INSTANCE.getRoute(100000,getMyLocation().lat, getMyLocation().lng,latLng.lat,latLng.lng,new IApiResultListener<DirectionsResult>() {
+//            @Override
+//            public void success(DirectionsResult result) {
+//                DirectionsResult results = result;
+//                if (results != null) {
+//                    addPolyline(results, googleMap);
+//                    addMarkersToMap(results, googleMap);
+//                    positionCamera(new LatLng(47.4734695, 19.0595492), googleMap);
+//                }
+//            }
+//
+//            @Override
+//            public void error(ErrorResponse errorResponse) {
+//
+//            }
+//
+//            @Override
+//            public void fail() {
+//
+//            }
+//        });
 //        DirectionsResult results = getDirectionsDetails(
 //                myLoc,
 //                latLng, TravelMode.DRIVING);
@@ -432,7 +469,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 //            positionCamera(new LatLng(latLng.lat, latLng.lng), googleMap);
 //        }
 
-    }
+//    }
 
     private void setupGoogleMapScreenSettings(GoogleMap mMap) {
         mMap.setBuildingsEnabled(false);

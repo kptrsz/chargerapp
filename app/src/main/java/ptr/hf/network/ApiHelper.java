@@ -65,6 +65,13 @@ public enum ApiHelper {
         chargerService
 //                .getStations(new StationRequest(true, false, latitude, longitude, distance, maxResult))
                 .getStations(true, false, latitude, longitude, distance, maxResult)
+//                .getStationsHu("HU", 1000)
+                .enqueue(new RestCallback<>(resultListener));
+    }
+
+    public void getStations(final IApiResultListener<List<Station>> resultListener) {
+        chargerService
+                .getStationsHu("HU", 1000)
                 .enqueue(new RestCallback<>(resultListener));
     }
 
@@ -73,8 +80,8 @@ public enum ApiHelper {
                 .enqueue(new RestCallback<>(resultListener));
     }
 
-    public void getReservation(String chargerId, String userId, Integer from, Integer to, final IApiResultListener<ArrayList<ReservationResponse>> resultListener) {
-        chargerService.postReservation(new ReservationRequest(chargerId, userId, Integer.toString(from), Integer.toString(to)))
+    public void getReservation(String userId, final IApiResultListener<ReservationResponse> resultListener) {
+        chargerService.getReservation(userId)
                 .enqueue(new RestCallback<>(resultListener));
     }
 
@@ -88,9 +95,9 @@ public enum ApiHelper {
                 .enqueue(new RestCallback<>(resultListener));
     }
 
-    public void getRoute(final IApiResultListener<DirectionsResult> resultListener) {
+    public void getRoute(int dist, double startLat, double startLng, double endLat, double endLng, final IApiResultListener<DirectionsResult> resultListener) {
         Gson gson = new Gson();
-        chargerService.getRoute((new RouteRequest(100000, new Start(47.4734695, 19.0595492), new Start(47.952203, 21.720380))))
+        chargerService.getRoute((new RouteRequest(dist, new Start(startLat, startLng), new Start(endLat, endLng))))
                 .enqueue(new RestCallback<>(resultListener));
     }
 

@@ -1,7 +1,9 @@
 package ptr.hf.ui;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +14,10 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import ptr.hf.R;
+import ptr.hf.ui.map.MapFragment;
 
 public class SettingsFragment extends Fragment {
 
@@ -56,5 +60,17 @@ public class SettingsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.send_reservation)
+    public void onViewClicked() {
+        Snackbar
+                .make(getActivity().findViewById(android.R.id.content),
+                        "Adatok sikeresen elmentve!",
+                        Snackbar.LENGTH_LONG)
+                .show();
+        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.container, new MapFragment());
+        ft.commit();
     }
 }

@@ -12,10 +12,10 @@ public class Reservation {
     String userId;
 
     @SerializedName("from")
-    Date from;
+    Integer from;
 
     @SerializedName("to")
-    Date to;
+    Integer to;
 
     @SerializedName("id")
     String id;
@@ -44,19 +44,19 @@ public class Reservation {
         this.userId = userId;
     }
 
-    public Date getFrom() {
+    public Integer getFrom() {
         return from;
     }
 
-    public void setFrom(Date from) {
+    public void setFrom(Integer from) {
         this.from = from;
     }
 
-    public Date getTo() {
+    public Integer getTo() {
         return to;
     }
 
-    public void setTo(Date to) {
+    public void setTo(Integer to) {
         this.to = to;
     }
 }

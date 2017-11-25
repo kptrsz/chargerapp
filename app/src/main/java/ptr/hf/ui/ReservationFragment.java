@@ -12,6 +12,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,9 +71,19 @@ public class ReservationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_reservation, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        Date currentDate = Calendar.getInstance().getTime();
+        Calendar calendar = Calendar.getInstance();
+        Date currentDate = calendar.getTime();
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
+        yearFrom = currentDate.getYear();
+        monthFrom = currentDate.getMonth();
+        dayFrom = currentDate.getDay();
+        hourFrom = currentDate.getHours();
+        minuteFrom = currentDate.getMinutes();
+        yearTo = currentDate.getYear();
+        monthTo = currentDate.getMonth();
+        dayTo = currentDate.getDay();
+        hourTo = currentDate.getHours();
 
 
 //        String dayOfTheWeek = (String) DateFormat.format("EEEE", date); // Thursday
@@ -81,6 +92,9 @@ public class ReservationFragment extends Fragment {
         datepickerFrom.setText((String) DateFormat.format("yyyy-MM-dd", currentDate));
         datepickerTo.setText((String) DateFormat.format("yyyy-MM-dd", currentDate));
         timepickerFrom.setText((String) DateFormat.format("HH:mm", currentDate));
+        calendar.add(Calendar.MINUTE, 30);
+        minuteTo = calendar.getTime().getMinutes();
+        timepickerTo.setText((String) DateFormat.format("HH:mm", calendar.getTime()));
 
         return view;
     }
@@ -102,15 +116,15 @@ public class ReservationFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Log.i("resetvation:", "93815" + " " +
                 user.getEmail() + " " +
-                "1507639115 " +
-                "1507639600");
+                (int) getDate(yearFrom, monthFrom, dayFrom, hourFrom, minuteFrom, 0).getTime() / 1000 +
+                (int) getDate(yearTo, monthTo, dayTo, hourTo, minuteTo, 0).getTime() / 1000);
         ApiHelper
                 .INSTANCE
                 .postReservation(
                         "93815",
                         user.getEmail(),
-                        (int) getDate(yearFrom, monthFrom, dayFrom, hourFrom, minuteFrom, 0).getTime(),
-                        (int) getDate(yearTo, monthTo, dayTo, hourTo, minuteTo, 0).getTime(),
+                        (int) getDate(yearFrom, monthFrom, dayFrom, hourFrom, minuteFrom, 0).getTime() / 1000,
+                        (int) getDate(yearTo, monthTo, dayTo, hourTo, minuteTo, 0).getTime() / 1000,
                         new IApiResultListener<ArrayList<ReservationResponse>>() {
                             @Override
                             public void success(ArrayList<ReservationResponse> result) {
@@ -126,12 +140,26 @@ public class ReservationFragment extends Fragment {
 
                             @Override
                             public void error(ErrorResponse errorResponse) {
-
+                                Snackbar
+                                        .make(getActivity().findViewById(android.R.id.content),
+                                                "Sikeres foglalás!",
+                                                Snackbar.LENGTH_LONG)
+                                        .show();
+                                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                ft.replace(R.id.container, new MapFragment());
+                                ft.commit();
                             }
 
                             @Override
                             public void fail() {
-
+                                Snackbar
+                                        .make(getActivity().findViewById(android.R.id.content),
+                                                "Sikeres foglalás!",
+                                                Snackbar.LENGTH_LONG)
+                                        .show();
+                                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                ft.replace(R.id.container, new MapFragment());
+                                ft.commit();
                             }
                         }
 //                        new IApiFinishedListener() {

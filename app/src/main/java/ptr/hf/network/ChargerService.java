@@ -39,8 +39,8 @@ public interface ChargerService {
 
 
     @GET("reservation")
-    Call<ArrayList<ReservationResponse>> getReservation(
-            @Body ReservationRequest reservationRequest);
+    Call<ReservationResponse> getReservation(
+            @Query("userId") String userId);
 
 
     @PUT("reservation")
@@ -66,14 +66,23 @@ public interface ChargerService {
             @Body UserSettings userSettings);
 
     @GET("stations")
-//    @HTTP(method = "GET", path = "stations", hasBody = true)
-    Call<List<Station>> getStations(
+    Call<List<Station>> getStationsHu(
 //            @Body StationRequest stationRequest);
+//            @Query("compact") Boolean compact,
+//            @Query("verbose") Boolean verbose,
+//            @Query("latitude") Double latitude,
+//            @Query("longitude") Double longitude,
+//            @Query("distance") Integer distance,
+            @Query("countrycode") String countryCode,
+            @Query("maxresults") int maxResults);
+
+    @GET("stations")
+    Call<List<Station>> getStations(
             @Query("compact") Boolean compact,
             @Query("verbose") Boolean verbose,
             @Query("latitude") Double latitude,
             @Query("longitude") Double longitude,
             @Query("distance") Integer distance,
-////            @Query("countrycode") String countryCode,
+//            @Query("countrycode") String countryCode);
             @Query("maxresults") int maxResults);
 }
