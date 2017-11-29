@@ -75,7 +75,6 @@
             android:layout_height="match_parent"
             android:text="@string/action_settings"
             android:padding="8dp"
-
             />
     </LinearLayout>
 </LinearLayout>

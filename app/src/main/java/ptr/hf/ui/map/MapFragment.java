@@ -358,6 +358,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 title.setText(marker.getTitle());
                 TextView address = popup.findViewById(R.id.marker_info_address);
                 address.setText(marker.getSnippet());
+                if (address.getText().equals("Time :null Distance :null"))
+                    address.setVisibility(View.GONE);
 
                 return (popup);
             }
