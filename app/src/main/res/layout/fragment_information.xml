@@ -29,25 +29,25 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:padding="8dp"
         android:layout_height="wrap_content"
         android:background="@color/veryTransparentColorPrimaryDark"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="8dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="8dp"
-            android:textSize="16sp"
-            android:text="Készítették:" />
+            android:text="Készítették:"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:padding="8dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="8dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -65,16 +65,25 @@
                 android:text="név - NK0000" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/veryTransparentColorPrimaryDark"
-        android:layout_weight="1">
-        <TextView
+        android:layout_weight="1"
+        android:background="@color/veryTransparentColorPrimaryDark">
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/action_settings"
-            android:padding="8dp"
-            />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:text="A töltőállomsások csak naponta frissülnek
+a foglalásokért felelősséget nem vállalunk.
+Ha leszerződünk a tölrőállomásokkal, akkor fenntartjuk a jogot, hogy a mulasztott foglalásokért büntetést számítsunk fel.
+Az adatok csak tájékoztató jellegűek, a valósággal mutatott bármilyen egyezésük pusztán a véletlen műve." />
+        </ScrollView>
     </LinearLayout>
 </LinearLayout>
