@@ -75,8 +75,8 @@ public enum ApiHelper {
                 .enqueue(new RestCallback<>(resultListener));
     }
 
-    public void postReservation(String chargerId, String userId, Integer from, Integer to, final IApiResultListener<ArrayList<ReservationResponse>> resultListener) {
-        chargerService.postReservation(new ReservationRequest(chargerId, userId, Integer.toString(from), Integer.toString(to)))
+    public void postReservation(String chargerId, String userId, String from, String to, final IApiResultListener<ArrayList<ReservationResponse>> resultListener) {
+        chargerService.postReservation(new ReservationRequest(chargerId, userId, /*Integer.toString*/(from), /*Integer.toString*/(to)))
                 .enqueue(new RestCallback<>(resultListener));
     }
 

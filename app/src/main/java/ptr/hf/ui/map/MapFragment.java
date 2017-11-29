@@ -160,18 +160,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
 
     private void addMarkersToMap(DirectionsResult results, GoogleMap mMap) {
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(
-                        results
-                                .routes[overview]
-                                .legs[overview]
-                                .startLocation.lat,
-                        results
-                                .routes[overview]
-                                .legs[overview]
-                                .startLocation.lng))
-                .title(results.routes[overview].legs[overview].startAddress)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin)));
+//        mMap.addMarker(new MarkerOptions()
+//                .position(new LatLng(
+//                        results
+//                                .routes[overview]
+//                                .legs[overview]
+//                                .startLocation.lat,
+//                        results
+//                                .routes[overview]
+//                                .legs[overview]
+//                                .startLocation.lng))
+//                .title(results.routes[overview].legs[overview].startAddress)
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin)));
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(
                         results
@@ -265,7 +265,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     private void getStationsFromOCM() {
 
-        ApiHelper.INSTANCE.getStations(getMyLocation().lat, getMyLocation().lng, 300000, 100, new IApiResultListener<List<Station>>() {
+        ApiHelper.INSTANCE.getStations(getMyLocation().lat, getMyLocation().lng, 1500, 5, new IApiResultListener<List<Station>>() {
+//        ApiHelper.INSTANCE.getStations(getMyLocation().lat, getMyLocation().lng, 300000, 100, new IApiResultListener<List<Station>>() {
             //        ApiHelper.INSTANCE.getStations(47.5, 19.0, 25, new IApiResultListener<ArrayList<Station>>() {
             @Override
             public void success(List<Station> result) {

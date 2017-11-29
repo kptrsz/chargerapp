@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,18 +54,21 @@ public class MyReservationFragment extends Fragment {
         ApiHelper.INSTANCE.getReservation(FirebaseAuth.getInstance().getCurrentUser().getEmail().toString(), new IApiResultListener<ReservationResponse>() {
             @Override
             public void success(ReservationResponse result) {
-                Calendar calendar = Calendar.getInstance();
-                Date date = calendar.getTime();
-                if (result.getData().get(result.getData().size() - 1).getTo() > (int) date.getTime()/1000) {
-                    act.setText((String) DateFormat.format("yyyy-MM-dd", result.getData().get(result.getData().size() - 1).getFrom()*1000)
-                            + " - "
-                            + (String) DateFormat.format("yyyy-MM-dd", result.getData().get(result.getData().size() - 1).getTo()*1000));
-                }
+//                Calendar calendar = Calendar.getInstance();
+//                Date date = calendar.getTime();
                 if (result.getData().size() > 4) {
-                    past1.setText((String) DateFormat.format("yyyy-MM-dd", result.getData().get(1).getFrom()*1000) + " - " + (String) DateFormat.format("yyyy-MM-dd", result.getData().get(1).getTo()*1000));
-                    past2.setText((String) DateFormat.format("yyyy-MM-dd", result.getData().get(2).getFrom()*1000) + " - " + (String) DateFormat.format("yyyy-MM-dd", result.getData().get(2).getTo()*1000));
-                    past3.setText((String) DateFormat.format("yyyy-MM-dd", result.getData().get(3).getFrom()*1000) + " - " + (String) DateFormat.format("yyyy-MM-dd", result.getData().get(3).getTo()*1000));
-                    past4.setText((String) DateFormat.format("yyyy-MM-dd", result.getData().get(4).getFrom()*1000) + " - " + (String) DateFormat.format("yyyy-MM-dd", result.getData().get(4).getTo()*1000));
+                    DateTime dateTime = new DateTime();
+                    DateTime lastReservation = new DateTime(result.getData().get(result.getData().size() - 1).getTo());
+
+                    if (dateTime.isBefore(lastReservation)) {
+                        act.setText(new DateTime(result.getData().get(result.getData().size()).getFrom()).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")) + " - " + new DateTime(result.getData().get(result.getData().size()).getTo()).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")));
+                    }
+                    if (result.getData().size() > 4) {
+                        past1.setText(new DateTime(result.getData().get(1)).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")) + " - " + new DateTime(result.getData().get(1)).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")));
+                        past2.setText(new DateTime(result.getData().get(2)).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")) + " - " + new DateTime(result.getData().get(2)).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")));
+                        past3.setText(new DateTime(result.getData().get(3)).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")) + " - " + new DateTime(result.getData().get(3)).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")));
+                        past4.setText(new DateTime(result.getData().get(4)).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")) + " - " + new DateTime(result.getData().get(4)).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")));
+                    }
                 }
             }
 

@@ -29,8 +29,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:padding="8dp"
+        android:layout_height="wrap_content"
         android:background="@color/veryTransparentColorPrimaryDark"
         android:orientation="horizontal">
 
@@ -64,5 +64,18 @@
                 android:layout_height="wrap_content"
                 android:text="név - NK0000" />
         </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/veryTransparentColorPrimaryDark"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/action_settings"
+            android:padding="8dp"
+
+            />
     </LinearLayout>
 </LinearLayout>

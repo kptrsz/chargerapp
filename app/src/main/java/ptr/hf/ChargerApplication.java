@@ -4,6 +4,10 @@ import android.app.Application;
 
 import com.facebook.stetho.Stetho;
 
+//import net.danlew.android.joda.JodaTimeAndroid;
+
+//import net.danlew.android.joda.JodaTimeAndroid;
+
 import ptr.hf.helper.BaseHelper;
 
 public class ChargerApplication extends Application{
@@ -16,6 +20,7 @@ public class ChargerApplication extends Application{
 
         BaseHelper.initialize(this);
         Stetho.initializeWithDefaults(this);
+//        JodaTimeAndroid.init(this);
     }
     public static boolean isActivityVisible() {
         return activityVisible;

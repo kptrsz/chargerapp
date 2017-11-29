@@ -25,11 +25,19 @@ import android.widget.TimePicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +51,7 @@ import ptr.hf.network.IApiFinishedListener;
 import ptr.hf.network.IApiResultListener;
 import ptr.hf.ui.auth.LoginActivity;
 import ptr.hf.ui.map.MapFragment;
+import ptr.hf.ui.map.MapFragment2;
 
 public class ReservationFragment extends Fragment {
 
@@ -66,36 +75,41 @@ public class ReservationFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.fragment_reservation, container, false);
 
         View view = inflater.inflate(R.layout.fragment_reservation, container, false);
+//        View view = inflater.inflate(R.layout.fragment_reservation, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        Calendar calendar = Calendar.getInstance();
-        Date currentDate = calendar.getTime();
-        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
-        yearFrom = currentDate.getYear();
-        monthFrom = currentDate.getMonth();
-        dayFrom = currentDate.getDay();
-        hourFrom = currentDate.getHours();
-        minuteFrom = currentDate.getMinutes();
-        yearTo = currentDate.getYear();
-        monthTo = currentDate.getMonth();
-        dayTo = currentDate.getDay();
-        hourTo = currentDate.getHours();
+        if (savedInstanceState == null) {
+
+
+//        Calendar calendar = Calendar.getInstance();
+//        Date currentDate = calendar.getTime();
+//        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+//        SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
+            DateTime currentDate = new DateTime();
+            yearFrom = currentDate.getYear();
+            monthFrom = currentDate.getMonthOfYear();
+            dayFrom = currentDate.getDayOfMonth();
+            hourFrom = currentDate.getHourOfDay();
+            minuteFrom = currentDate.getMinuteOfHour();
+            yearTo = currentDate.getYear();
+            monthTo = currentDate.getMonthOfYear();
+            dayTo = currentDate.getDayOfMonth();
+            hourTo = currentDate.getHourOfDay();
 
 
 //        String dayOfTheWeek = (String) DateFormat.format("EEEE", date); // Thursday
 
 
-        datepickerFrom.setText((String) DateFormat.format("yyyy-MM-dd", currentDate));
-        datepickerTo.setText((String) DateFormat.format("yyyy-MM-dd", currentDate));
-        timepickerFrom.setText((String) DateFormat.format("HH:mm", currentDate));
-        calendar.add(Calendar.MINUTE, 30);
-        minuteTo = calendar.getTime().getMinutes();
-        timepickerTo.setText((String) DateFormat.format("HH:mm", calendar.getTime()));
-
+            datepickerFrom.setText(currentDate.toString(DateTimeFormat.forPattern("YYYY/MM/dd")));
+            datepickerTo.setText(currentDate.toString(DateTimeFormat.forPattern("YYYY/MM/dd")));
+            timepickerFrom.setText(currentDate.toString(DateTimeFormat.forPattern("HH:mm")));
+//        calendar.add(Calendar.MINUTE, 30);
+//        minuteTo = calendar.getTime().getMinutes();
+//        currentDate.plusMinutes(30);
+            timepickerTo.setText(currentDate.plusMinutes(30).toString(DateTimeFormat.forPattern("HH:mm")));
+        }
         return view;
     }
 
@@ -114,17 +128,25 @@ public class ReservationFragment extends Fragment {
     @OnClick(R.id.send_reservation)
     public void onViewClicked() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        LocalDateTime fromD = new LocalDateTime(yearFrom, monthFrom, dayFrom, hourFrom, minuteFrom);
+        LocalDateTime toD = new LocalDateTime(yearTo, monthTo, dayTo, hourTo, minuteTo);
+        DateTime fromDT = fromD.toDateTime(DateTimeZone.UTC);
+        DateTime toDT = toD.toDateTime(DateTimeZone.UTC);
+        long from = fromDT.getMillis() / 1000;
+        long to = toDT.getMillis() / 1000;
+
         Log.i("resetvation:", "93815" + " " +
-                user.getEmail() + " " +
-                (int) getDate(yearFrom, monthFrom, dayFrom, hourFrom, minuteFrom, 0).getTime() / 1000 +
-                (int) getDate(yearTo, monthTo, dayTo, hourTo, minuteTo, 0).getTime() / 1000);
+                user.getEmail() + " "
+                + from + " "
+                + to);
         ApiHelper
                 .INSTANCE
                 .postReservation(
                         "93815",
                         user.getEmail(),
-                        (int) getDate(yearFrom, monthFrom, dayFrom, hourFrom, minuteFrom, 0).getTime() / 1000,
-                        (int) getDate(yearTo, monthTo, dayTo, hourTo, minuteTo, 0).getTime() / 1000,
+                        Long.toString(from),
+                        Long.toString(to),
                         new IApiResultListener<ArrayList<ReservationResponse>>() {
                             @Override
                             public void success(ArrayList<ReservationResponse> result) {
@@ -133,10 +155,9 @@ public class ReservationFragment extends Fragment {
                                                 "Sikeres foglalás!",
                                                 Snackbar.LENGTH_LONG)
                                         .show();
-                                final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                                ft.replace(R.id.container, new MapFragment());
-                                ft.commit();
+                                removeFragment();
                             }
+
 
                             @Override
                             public void error(ErrorResponse errorResponse) {
@@ -145,9 +166,7 @@ public class ReservationFragment extends Fragment {
                                                 "Sikeres foglalás!",
                                                 Snackbar.LENGTH_LONG)
                                         .show();
-                                final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                                ft.replace(R.id.container, new MapFragment());
-                                ft.commit();
+                                removeFragment();
                             }
 
                             @Override
@@ -157,9 +176,7 @@ public class ReservationFragment extends Fragment {
                                                 "Sikeres foglalás!",
                                                 Snackbar.LENGTH_LONG)
                                         .show();
-                                final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                                ft.replace(R.id.container, new MapFragment());
-                                ft.commit();
+                                removeFragment();
                             }
                         }
 //                        new IApiFinishedListener() {
@@ -177,10 +194,17 @@ public class ReservationFragment extends Fragment {
                 );
     }
 
+    private void removeFragment() {
+        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.container, new MapFragment2());
+        ft.commit();
+    }
+
     public static Date getDate(int year, int month, int day, int hour, int minute, int second) {
         Calendar cal = Calendar.getInstance();
+//        cal.set(Calendar.ERA, GregorianCalendar.AD);
         cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.MONTH, month + 1);
         cal.set(Calendar.DAY_OF_MONTH, day);
         cal.set(Calendar.HOUR_OF_DAY, hour);
         cal.set(Calendar.MINUTE, minute);
@@ -199,7 +223,7 @@ public class ReservationFragment extends Fragment {
                 dialogFragmentDateFrom.setListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        datepickerFrom.setText(Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(dayOfMonth));
+                        datepickerFrom.setText(Integer.toString(year) + "/" + Integer.toString(month+1) + "/" + Integer.toString(dayOfMonth));
                         yearFrom = year;
                         monthFrom = month;
                         dayFrom = dayOfMonth;
@@ -212,7 +236,7 @@ public class ReservationFragment extends Fragment {
                 dialogFragmentTimeFrom.setListener(new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        timepickerFrom.setText(Integer.toString(hourOfDay) + " " + Integer.toString(minute));
+                        timepickerFrom.setText(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
                         hourFrom = hourOfDay;
                         minuteFrom = minute;
                     }
@@ -224,7 +248,7 @@ public class ReservationFragment extends Fragment {
                 dialogFragmentDateTo.setListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        datepickerTo.setText(Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(dayOfMonth));
+                        datepickerTo.setText(Integer.toString(year) + "/" + Integer.toString(month+1) + "/" + Integer.toString(dayOfMonth));
                         yearTo = year;
                         monthTo = month;
                         dayTo = dayOfMonth;
@@ -237,7 +261,7 @@ public class ReservationFragment extends Fragment {
                 dialogFragmentTimeTo.setListener(new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        timepickerTo.setText(Integer.toString(hourOfDay) + " " + Integer.toString(minute));
+                        timepickerTo.setText(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
                         hourTo = hourOfDay;
                         minuteTo = minute;
                     }
@@ -262,6 +286,7 @@ public class ReservationFragment extends Fragment {
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
+
 
             // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
