@@ -17,7 +17,7 @@ public class Reservation {
     @SerializedName("to")
     Integer to;
 
-    @SerializedName("id")
+    @SerializedName("_id")
     String id;
 
     public String getId() {

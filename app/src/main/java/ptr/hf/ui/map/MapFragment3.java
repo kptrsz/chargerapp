@@ -322,6 +322,8 @@ public class MapFragment3 extends Fragment implements OnMapReadyCallback, Google
 //            }
 //        });
 
+        positionCamera(new LatLng(47.4734528,19.0576992), map);
+
     }
 
     private void getDirections(final GoogleMap googleMap, final com.google.maps.model.LatLng latLng) {

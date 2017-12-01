@@ -225,7 +225,7 @@ public class ReservationFragment extends Fragment {
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         datepickerFrom.setText(Integer.toString(year) + "/" + Integer.toString(month+1) + "/" + Integer.toString(dayOfMonth));
                         yearFrom = year;
-                        monthFrom = month;
+                        monthFrom = month+1;
                         dayFrom = dayOfMonth;
                     }
                 });
@@ -250,7 +250,7 @@ public class ReservationFragment extends Fragment {
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         datepickerTo.setText(Integer.toString(year) + "/" + Integer.toString(month+1) + "/" + Integer.toString(dayOfMonth));
                         yearTo = year;
-                        monthTo = month;
+                        monthTo = month+1;
                         dayTo = dayOfMonth;
                     }
                 });

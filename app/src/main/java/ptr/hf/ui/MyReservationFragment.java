@@ -2,26 +2,26 @@ package ptr.hf.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.text.format.DateFormat;
-import android.text.format.DateUtils;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import ptr.hf.R;
 import ptr.hf.model.ReservationResponse;
@@ -41,6 +41,9 @@ public class MyReservationFragment extends Fragment {
     @BindView(R.id.past4)
     TextView past4;
     Unbinder unbinder;
+    ReservationResponse reservationResponse;
+    @BindView(R.id.delete_reservation)
+    ImageView deleteReservation;
 
     @Nullable
     @Override
@@ -55,19 +58,22 @@ public class MyReservationFragment extends Fragment {
             @Override
             public void success(ReservationResponse result) {
 //                Calendar calendar = Calendar.getInstance();
+                reservationResponse = result;
 //                Date date = calendar.getTime();
                 if (result.getData().size() > 4) {
+                    DateTimeFormatter dtf = DateTimeFormat.forPattern("YYYY/MM/dd HH:mm");
                     DateTime dateTime = new DateTime();
-                    DateTime lastReservation = new DateTime(result.getData().get(result.getData().size() - 1).getTo());
+                    DateTime lastReservation = new DateTime(new Long(result.getData().get(result.getData().size() - 1).getTo()) * 1000L);
 
                     if (dateTime.isBefore(lastReservation)) {
-                        act.setText(new DateTime(result.getData().get(result.getData().size()).getFrom()).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")) + " - " + new DateTime(result.getData().get(result.getData().size()).getTo()).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")));
+                        deleteReservation.setVisibility(View.VISIBLE);
+                        act.setText(new DateTime(new Long(result.getData().get(result.getData().size() - 1).getFrom()) * 1000L).toString(dtf) + " - " + new DateTime(new Long(result.getData().get(result.getData().size() - 1).getTo()) * 1000L).toString(dtf));
                     }
                     if (result.getData().size() > 4) {
-                        past1.setText(new DateTime(result.getData().get(1)).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")) + " - " + new DateTime(result.getData().get(1)).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")));
-                        past2.setText(new DateTime(result.getData().get(2)).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")) + " - " + new DateTime(result.getData().get(2)).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")));
-                        past3.setText(new DateTime(result.getData().get(3)).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")) + " - " + new DateTime(result.getData().get(3)).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")));
-                        past4.setText(new DateTime(result.getData().get(4)).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")) + " - " + new DateTime(result.getData().get(4)).toString(DateTimeFormat.forPattern("YYYY/MM/dd HH:mm")));
+                        past1.setText(new DateTime(new Long(result.getData().get(1).getFrom()) * 1000L).toString(dtf) + " - " + new DateTime(new Long(result.getData().get(1).getFrom()) * 1000L).toString(dtf));
+                        past2.setText(new DateTime(new Long(result.getData().get(2).getFrom()) * 1000L).toString(dtf) + " - " + new DateTime(new Long(result.getData().get(2).getFrom()) * 1000L).toString(dtf));
+                        past3.setText(new DateTime(new Long(result.getData().get(3).getFrom()) * 1000L).toString(dtf) + " - " + new DateTime(new Long(result.getData().get(3).getFrom()) * 1000L).toString(dtf));
+                        past4.setText(new DateTime(new Long(result.getData().get(4).getFrom()) * 1000L).toString(dtf) + " - " + new DateTime(new Long(result.getData().get(4).getFrom()) * 1000L).toString(dtf));
                     }
                 }
             }
@@ -89,5 +95,59 @@ public class MyReservationFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.delete_reservation)
+    public void onViewClicked() {
+        if (reservationResponse != null)
+            ApiHelper.INSTANCE.deleteReservation(reservationResponse.getData().get(reservationResponse.getData().size() - 1).getId(), new IApiResultListener<ReservationResponse>() {
+                @Override
+                public void success(ReservationResponse result) {
+//                    if (result.getSuccess()) {
+
+                    act.setText("Nincs aktuális foglalás!");
+                    deleteReservation.setVisibility(View.GONE);
+                            Snackbar
+                                .make(getActivity().findViewById(android.R.id.content),
+                            "Sikeresen törölte a foglalást!",
+                            Snackbar.LENGTH_LONG)
+                            .show();
+                    FragmentTransaction tr = getFragmentManager().beginTransaction();
+                    tr.replace(R.id.container, new MyReservationFragment());
+                    tr.commit();
+//                    } else
+//                        fail();
+                }
+
+                @Override
+                public void error(ErrorResponse errorResponse) {
+                    Snackbar
+                            .make(getActivity().findViewById(android.R.id.content),
+                                    "Hiba lépett fel a regisztráció során." +
+                                            "\nKérem próbálja meg később!",
+                                    Snackbar.LENGTH_LONG)
+                            .setAction("ÚJRA", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    onViewClicked();
+                                }
+                            }).show();
+                }
+
+                @Override
+                public void fail() {
+                    Snackbar
+                            .make(getActivity().findViewById(android.R.id.content),
+                                    "Hiba lépett fel a regisztráció során." +
+                                            "\nKérem próbálja meg később!",
+                                    Snackbar.LENGTH_LONG)
+                            .setAction("ÚJRA", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    onViewClicked();
+                                }
+                            }).show();
+                }
+            });
     }
 }

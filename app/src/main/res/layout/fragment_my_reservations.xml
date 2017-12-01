@@ -23,16 +23,30 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.98"
+            android:layout_height="match_parent">
         <TextView
             android:id="@+id/act"
             android:layout_width="0dp"
             android:layout_height="56dp"
-            android:layout_weight="0.98"
+            android:layout_weight="0.85"
             android:background="@color/transparentColorPrimary"
             android:gravity="center"
             android:text="Nincs aktuális foglalás!"
             android:textColor="@color/colorPrimaryLight" />
 
+        <ImageView
+            android:id="@+id/delete_reservation"
+            android:layout_width="0dp"
+            android:visibility="gone"
+            android:layout_weight="0.15"
+            android:padding="12dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_delete_black_24dp"
+            android:background="@color/colorAccent"/>
+        </LinearLayout>
     </LinearLayout>
 
     <TextView

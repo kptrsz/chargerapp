@@ -48,8 +48,8 @@ public interface ChargerService {
             @Body ReservationRequest reservationRequest);
 
     @DELETE("reservation")
-    Call<ArrayList<ReservationResponse>> deleteReservation(
-            @Body ReservationRequest reservationRequest);
+    Call<ReservationResponse> deleteReservation(
+            @Query("id") String id);
 
 
     @POST("maps/route")

@@ -109,6 +109,11 @@ public enum ApiHelper {
         chargerService.postSettings(userSettings).enqueue(new RestCallback<>(resultListener));
     }
 
+    public void deleteReservation(String id, final IApiResultListener<ReservationResponse> resultListener) {
+        chargerService.deleteReservation(id)
+                .enqueue(new RestCallback<>(resultListener));
+    }
+
 
 //    public void getStations(final IApiResultListener<ArrayList<Station>> resultListener) {
 //        chargerService

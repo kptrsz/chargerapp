@@ -11,12 +11,18 @@ class ReservationRequest {
     private String from;
     @Expose
     private String to;
+    @Expose
+    private String id;
 
     public ReservationRequest(String chargerId, String userId, String from, String to) {
         this.chargerId = chargerId;
         this.userId = userId;
         this.from = from;
         this.to = to;
+    }
+
+    public ReservationRequest(String id) {
+        this.id = id;
     }
 
     public String getChargerId() {
