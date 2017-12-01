@@ -68,6 +68,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     Polyline polylineFinal;
     Marker marker;
+    Marker addedMarker;
 
     private List<Station> stations = new ArrayList<>();
     private MapView mapView;
@@ -266,7 +267,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private void getStationsFromOCM() {
 
         ApiHelper.INSTANCE.getStations(getMyLocation().lat, getMyLocation().lng, 1500, 5, new IApiResultListener<List<Station>>() {
-//        ApiHelper.INSTANCE.getStations(getMyLocation().lat, getMyLocation().lng, 300000, 100, new IApiResultListener<List<Station>>() {
+            //        ApiHelper.INSTANCE.getStations(getMyLocation().lat, getMyLocation().lng, 300000, 100, new IApiResultListener<List<Station>>() {
             //        ApiHelper.INSTANCE.getStations(47.5, 19.0, 25, new IApiResultListener<ArrayList<Station>>() {
             @Override
             public void success(List<Station> result) {
@@ -350,9 +351,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
-            public void onMapClick(LatLng latLng) {// TODO: 2017. 12. 01. kellllll!!!!4
-                map.;
-                map.addMarker(new MarkerOptions().position(point));
+            public void onMapClick(LatLng latLng) {
+                if (addedMarker != null)
+                    addedMarker.remove();
+                addedMarker = map.addMarker(new MarkerOptions().position(latLng));
             }
         });
 
