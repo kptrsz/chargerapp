@@ -54,8 +54,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     Button loginButton;
     @BindView(R.id.login_google)
     Button loginGoogle;
-    @BindView(R.id.login_reset)
-    TextView loginReset;
+//    @BindView(R.id.login_reset)
+//    TextView loginReset;
     @BindView(R.id.login_register)
     TextView loginRegister;
     @BindView(R.id.login_password2)
@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         progress = new ProgressDialog(this);
         progress.setTitle("Bejelentkezés");
         progress.setMessage("Kérem várjon...");
-        progress.setCancelable(false);
+        progress.setCancelable(true);
 
         firebaseAuth = FirebaseAuth.getInstance();
     }
@@ -150,6 +150,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                             createUserWithEmailAndPassword(email, password);
                                         }
                                     }).show();
+                            progress.dismiss();
                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(findViewById(android.R.id.content).getRootView().getWindowToken(), 0);
                         }
@@ -182,6 +183,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                             signInWithEmailAndPassword(email, password);
                                         }
                                     }).show();
+                            progress.dismiss();
                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(findViewById(android.R.id.content).getRootView().getWindowToken(), 0);
 
@@ -238,6 +240,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         makeSnack("Hiba lépett fel a kapcsolódás során." +
                 "\nKérem próbálja meg később!");
+        progress.dismiss();
     }
 
     private void makeSnack(String message) {
@@ -257,7 +260,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         return matcher.matches();
     }
 
-    @OnClick({R.id.login_button, R.id.login_google, R.id.login_reset, R.id.login_register})
+    @OnClick({R.id.login_button, R.id.login_google/*, R.id.login_reset*/, R.id.login_register})
     public void onViewClicked(View view) {
         String email = loginEmail.getText().toString();
         String password = loginPassword.getText().toString();
@@ -273,12 +276,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         makeSnack("Az e-mail cím nem megfelelő.");
                     } else
                         makeSnack("A jelszó nem megfelelő.");
+                else if (!isEmailValid(email))
+                makeSnack("Nem megfelelő e-mail cím.");
+                else if (!loginPassword.getText().toString().equals(loginPassword2.getText().toString())){
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(findViewById(android.R.id.content).getRootView().getWindowToken(), 0);
+//                    makeSnack("A két jelszó nem egyezik meg.");
+                    Snackbar
+                            .make(findViewById(android.R.id.content),
+                                    "A két jelszó nem egyezik meg!",
+                                    Snackbar.LENGTH_LONG)
+                            .show();}
                 else if (loginPassword.getText().toString().equals(loginPassword2.getText().toString()))
                     createUserWithEmailAndPassword(email, password);
-                else if (!isEmailValid(email))
-                    makeSnack("Nem megfelelő e-mail cím.");
-                else if (!loginPassword.getText().toString().equals(loginPassword2.getText().toString()))
-                    makeSnack("A két jelszó nem egyezik meg.");
                 else makeSnack("Nem sikerült kapcsolódni a kiszolgálóhoz, kérem próbálja újra később.");
                 break;
             case R.id.login_google:
@@ -286,14 +296,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 googleSignIn();
 //                progress.dismiss();
                 break;
-            case R.id.login_reset:
-                if (isEmailValid(email)) {
-                    progress.show();
-//                    forgotPassword();
-//                    progress.dismiss();
-                } else
-                    makeSnack("Az e-mail cím nem megfelelő");
-                break;
+//            case R.id.login_reset:
+//                if (isEmailValid(email)) {
+////                    progress.show();
+//                    makeSnack("A bejelentkezési információkat elküldtük.");
+////                    forgotPassword();
+////                    progress.dismiss();
+//                } else
+//                    makeSnack("Kérem adja meg az e-mail címet!");
+//                break;
             case R.id.login_register:
                 loginPassword2.setVisibility(View.VISIBLE);
                 loginGoogle.setVisibility(View.GONE);

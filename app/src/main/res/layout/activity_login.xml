@@ -115,17 +115,17 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
+            <!--<TextView-->
 
-                android:id="@+id/login_reset"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="Elfelejtett jelszó"
-                android:textAlignment="center"
-                android:textColor="@color/colorAccent" />
+                <!--android:id="@+id/login_reset"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:padding="16dp"-->
+                <!--android:text="Elfelejtett jelszó"-->
+                <!--android:textAlignment="center"-->
+                <!--android:textColor="@color/colorAccent" />-->
 
             <TextView
                 android:id="@+id/login_register"

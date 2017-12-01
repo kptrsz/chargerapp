@@ -185,7 +185,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 .title(results
                         .routes[overview]
                         .legs[overview]
-                        .startAddress)
+                        .endAddress)
                 .snippet(getEndLocationTitle(results))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin)));
 //        positionCamera(new LatLng(
