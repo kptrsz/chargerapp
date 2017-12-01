@@ -80,8 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="8dp"
-                android:text="A töltőállomsások csak naponta frissülnek
-a foglalásokért felelősséget nem vállalunk.
+                android:text="A töltőállomsások csak naponta frissülnek, a foglalásokért felelősséget nem vállalunk.
 Ha leszerződünk a tölrőállomásokkal, akkor fenntartjuk a jogot, hogy a mulasztott foglalásokért büntetést számítsunk fel.
 Az adatok csak tájékoztató jellegűek, a valósággal mutatott bármilyen egyezésük pusztán a véletlen műve." />
         </ScrollView>

@@ -348,6 +348,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         map.setOnMarkerClickListener(this);
 
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {// TODO: 2017. 12. 01. kellllll!!!!4
+                map.;
+                map.addMarker(new MarkerOptions().position(point));
+            }
+        });
+
         map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter()
 
         {
