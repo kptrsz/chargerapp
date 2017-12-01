@@ -52,17 +52,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="név - NK0000" />
+                android:text="Medgyesi Zsolt - ILNR9E" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="név - NK0000" />
+                android:text="Radvány Tamás - OLI6SF" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="név - NK0000" />
+                android:text="Kovács Péter - F02IVX" />
         </LinearLayout>
     </LinearLayout>
 
