@@ -7,6 +7,10 @@
             android:icon="@drawable/ic_map"
             android:title="Közeli töltőállomások" />
         <item
+            android:id="@+id/nav"
+            android:icon="@drawable/ic_navigation_black_24dp"
+            android:title="Navigáció" />
+        <item
             android:id="@+id/nav_reservation"
             android:icon="@drawable/ic_local_gas_station"
             android:title="@string/reservation" />

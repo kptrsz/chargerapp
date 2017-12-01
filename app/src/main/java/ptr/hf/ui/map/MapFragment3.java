@@ -7,12 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -37,7 +35,6 @@ import com.google.maps.DirectionsApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.android.PolyUtil;
 import com.google.maps.errors.ApiException;
-import com.google.maps.model.Bounds;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.TravelMode;
 
@@ -48,21 +45,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 import ptr.hf.R;
 import ptr.hf.helper.GPSTracker;
 import ptr.hf.network.ApiHelper;
 import ptr.hf.network.ErrorResponse;
 import ptr.hf.network.IApiResultListener;
 import ptr.hf.network.Station;
-import ptr.hf.ui.ReservationFragment;
 
 import static ptr.hf.ui.auth.LoginActivity.TAG;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class MapFragment3 extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private static final int overview = 0;
 
@@ -91,22 +84,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         ButterKnife.bind(view);
         dialog = ProgressDialog.show(getContext(), "",
                 "Térkép betöltése, kérem várjon...", true);
+        dialog.setCancelable(true);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
 
-
         getMyLocation();
-
-//        geoDataClient = Places.getGeoDataClient(getContext(), null);
-//
-//        placeDetectionClient = Places.getPlaceDetectionClient(getContext(), null);
-//        if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-//
-//            ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  },
-//                    LocationService.MY_PERMISSION_ACCESS_COURSE_LOCATION );
-//        }
-//
-
 
         return view;
     }
@@ -166,18 +148,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 //                        results
 //                                .routes[overview]
 //                                .legs[overview]
-//                                .startLocation.lat,
-//                        results
-//                                .routes[overview]
-//                                .legs[overview]
-//                                .startLocation.lng))
-//                .title(results.routes[overview].legs[overview].startAddress)
-//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin)));
-//        mMap.addMarker(new MarkerOptions()
-//                .position(new LatLng(
-//                        results
-//                                .routes[overview]
-//                                .legs[overview]
 //                                .endLocation.lat,
 //                        results
 //                                .routes[overview]
@@ -189,16 +159,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 //                        .endAddress)
 //                .snippet(getEndLocationTitle(results))
 //                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin)));
-//        positionCamera(new LatLng(
-//                results
-//                        .routes[overview]
-//                        .legs[overview]
-//                        .startLocation.lat,
-//                results
-//                        .routes[overview]
-//                        .legs[overview]
-//                        .startLocation.lng), map);
-        for (int i = 1; i < results.routes[overview].legs.length; i++) {
+        for (int i = 1; i < results.routes[overview].legs.length-2; i++) {
             mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(
                             results
@@ -217,6 +178,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin)));
         }
 
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(
+                        results
+                                .routes[overview]
+                                .legs[results.routes[overview].legs.length-1]
+                                .endLocation.lat,
+                        results
+                                .routes[overview]
+                                .legs[results.routes[overview].legs.length-1]
+                                .endLocation.lng))
+                .title(results
+                        .routes[overview]
+                        .legs[results.routes[overview].legs.length-1]
+                        .startAddress)
+                .title(results.routes[overview].summary));
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(new LatLngBounds(new LatLng(results.routes[overview].bounds.southwest.lat, results.routes[overview].bounds.southwest.lng),
                 new LatLng(results.routes[overview].bounds.northeast.lat, results.routes[overview].bounds.northeast.lng)), 80);
         mMap.animateCamera(cu);
@@ -248,8 +224,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         /**create the camera with bounds and padding to set into map*/
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
 
-//        final CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50);
-
     }
 
     private String getEndLocationTitle(DirectionsResult results) {
@@ -265,67 +239,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         mapView.getMapAsync(this);
     }
 
-    private void getStationsFromOCM() {
-
-        ApiHelper.INSTANCE.getStations(getMyLocation().lat, getMyLocation().lng, 1500, 5, new IApiResultListener<List<Station>>() {
-            //        ApiHelper.INSTANCE.getStations(getMyLocation().lat, getMyLocation().lng, 300000, 100, new IApiResultListener<List<Station>>() {
-            //        ApiHelper.INSTANCE.getStations(47.5, 19.0, 25, new IApiResultListener<ArrayList<Station>>() {
-            @Override
-            public void success(List<Station> result) {
-                if (getContext() != null) {
-                    stations.clear();
-                    stations.addAll(result);
-                    if (stations != null) {
-                        for (Station station : stations) {
-                            MarkerOptions markerOptions = new MarkerOptions().position(station.getLatLng()).title(station.getAddressTitle());
-                            markerOptions.snippet(station.getAddress());
-                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin));
-                            Marker marker = map.addMarker(markerOptions);
-                            positionCamera(new LatLng(getMyLocation().lat, getMyLocation().lng), map);
-                        }
-                    }
-                    dialog.dismiss();
-                }
-
-            }
-
-            @Override
-            public void error(ErrorResponse errorResponse) {
-                dialog.dismiss();
-                Snackbar
-                        .make(getActivity().findViewById(android.R.id.content),
-                                "Megszakadt a kapcsolat a kiszolgálóval, Kérem próbálja újra később",
-                                Snackbar.LENGTH_LONG)
-                        .setAction("Újra", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.show();
-                                getStationsFromOCM();
-                            }
-                        })
-                        .show();
-
-            }
-
-            @Override
-            public void fail() {
-                dialog.dismiss();
-                Snackbar
-                        .make(getActivity().findViewById(android.R.id.content),
-                                "Megszakadt a kapcsolat a kiszolgálóval, Kérem próbálja újra később",
-                                Snackbar.LENGTH_LONG)
-                        .setAction("Újra", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.show();
-                                getStationsFromOCM();
-                            }
-                        })
-                        .show();
-
-            }
-        });
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -350,14 +263,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         map.setOnMarkerClickListener(this);
 
-        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                if (addedMarker != null)
-                    addedMarker.remove();
-                addedMarker = map.addMarker(new MarkerOptions().position(latLng));
-            }
-        });
+
 
         map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter()
 
@@ -389,16 +295,33 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             }
         });
 
-        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
-            public void onInfoWindowClick(Marker marker) {
-                getDirections(map, new com.google.maps.model.LatLng(marker.getPosition().latitude, marker.getPosition().longitude));
+            public void onMapClick(LatLng latLng) {
+                if (addedMarker != null)
+                    addedMarker.remove();
+                addedMarker = map.addMarker(new MarkerOptions().position(latLng));
+                getDirections(map, new com.google.maps.model.LatLng(latLng.latitude, latLng.longitude));
             }
         });
+        dialog.dismiss();
+//        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//            @Override
+//            public void onMapClick(LatLng latLng) {
+//                if (addedMarker != null)
+//                    addedMarker.remove();
+//                addedMarker = map.addMarker(new MarkerOptions().position(latLng));
+//            }
+//        });
 
-        positionCamera(new LatLng(getMyLocation().lat, getMyLocation().lng), map);
-        getStationsFromOCM();
-//        getDirections(map);
+
+//        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+//            @Override
+//            public void onInfoWindowClick(Marker marker) {
+//                getDirections(map, new com.google.maps.model.LatLng(marker.getPosition().latitude, marker.getPosition().longitude));
+//            }
+//        });
+
     }
 
     private void getDirections(final GoogleMap googleMap, final com.google.maps.model.LatLng latLng) {
@@ -406,6 +329,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         googleMap.clear();
         final ProgressDialog dialog2 = ProgressDialog.show(getContext(), "",
                 "Tervezés, kérem várjon...", true);
+        dialog2.setCancelable(true);
         com.google.maps.model.LatLng myLoc = getMyLocation();
 //        DirectionsResult results = getDirectionsDetails(
 //                myLoc,
