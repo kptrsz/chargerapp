@@ -79,7 +79,7 @@ public class MapFragment3 extends Fragment implements OnMapReadyCallback, Google
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_map, container, false);
+        View view = inflater.inflate(R.layout.fragment_map2, container, false);
 
         ButterKnife.bind(view);
         dialog = ProgressDialog.show(getContext(), "",

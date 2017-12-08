@@ -91,6 +91,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         ButterKnife.bind(view);
         dialog = ProgressDialog.show(getContext(), "",
                 "Térkép betöltése, kérem várjon...", true);
+        dialog.setCancelable(true);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
 
@@ -350,14 +351,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         map.setOnMarkerClickListener(this);
 
-        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                if (addedMarker != null)
-                    addedMarker.remove();
-                addedMarker = map.addMarker(new MarkerOptions().position(latLng));
-            }
-        });
+//        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//            @Override
+//            public void onMapClick(LatLng latLng) {
+//                if (addedMarker != null)
+//                    addedMarker.remove();
+//                addedMarker = map.addMarker(new MarkerOptions().position(latLng));
+//            }
+//        });
 
         map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter()
 

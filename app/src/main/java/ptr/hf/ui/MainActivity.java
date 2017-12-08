@@ -188,28 +188,36 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_maps) {
 //            toolbar.setTitle(R.string.map);
             toolbar.setTitle("Közeli töltőállomások");
+//            onNavigationItemSelected(navView.getMenu().getItem(0));
             fragment = new MapFragment();
         } else if (id == R.id.nav_reservation) {
             toolbar.setTitle(R.string.reservation);
+//            onNavigationItemSelected(navView.getMenu().getItem(1));
             fragment = new MapFragment2();
         } else if (id == R.id.nav) {
+//            onNavigationItemSelected(navView.getMenu().getItem(2));
             toolbar.setTitle("Navigáció");
             fragment = new MapFragment3();
         } else if (id == R.id.nav_my_reservations) {
+//            onNavigationItemSelected(navView.getMenu().getItem(3));
             toolbar.setTitle("Foglalásaim");
             fragment = new MyReservationFragment();
         } else if (id == R.id.nav_stats) {
+//            onNavigationItemSelected(navView.getMenu().getItem(4));
             toolbar.setTitle(R.string.statistics);
             fragment = new StatisticsFragment();
         } else if (id == R.id.nav_settings) {
+//            onNavigationItemSelected(navView.getMenu().getItem(5));
             toolbar.setTitle(R.string.settings);
             fragment = new SettingsFragment();
         } else if (id == R.id.nav_logout) {
+//            onNavigationItemSelected(navView.getMenu().getItem(6));
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
         } else if (id == R.id.nav_info) {
+//            onNavigationItemSelected(navView.getMenu().getItem(7));
             toolbar.setTitle(R.string.information);
             fragment = new InformationFragment();
         }
